@@ -1,9 +1,9 @@
 # 西洋棋遊戲
 
 ## 類別表(Model)
-----
-> ### abstract class `Piece`: 棋子的抽象類別
 
+---
+> ### abstract class `Piece`: 棋子的抽象類別
 
 - properties
   - char `color`: 棋子顏色
@@ -29,8 +29,8 @@
     - void `setHasMoved()`
 
 
+---
 > ### interface `MoveInterface`: 定義棋子的移動方式
-
 - methods
   - `move()`
   - `capture()`
@@ -38,8 +38,8 @@
 
 
 
+---
 > ### class `Pawn` entends `Piece` implements `MoveInterface`: 兵 繼承 棋子
-
 - properties
   - char `color`: 棋子顏色
   - char `name`: 棋子代號
@@ -65,8 +65,8 @@
   - `capture()`
 
 
+---
 > ### class `Queen` extends `Piece` implements `MoveInterface`: 皇后 繼承 棋子
-
 - properties
   - char `color`: 棋子顏色
   - char `name`: 棋子代號
@@ -91,8 +91,8 @@
   - `move()`
   - `capture()`
 
+---
 > ### class `King` extends `Piece` implements `MoveInterface`: 國王 繼承 棋子
-
 - properties
   - char `color`: 棋子顏色
   - char `name`: 棋子代號
@@ -117,8 +117,8 @@
   - `move()`
   - `capture()`
 
+---
 > ### class `Bishop` extends `Piece` implements `MoveInterface`: 主教 繼承 棋子
-
 - properties
   - char `color`: 棋子顏色
   - char `name`: 棋子代號
@@ -143,8 +143,8 @@
   - `move()`
   - `capture()`
 
+---
 > ### class `Castle` extends `Piece` implements `MoveInterface`: 城堡 繼承 棋子
-
 - properties
   - char `color`: 棋子顏色
   - char `name`: 棋子代號
@@ -169,8 +169,8 @@
   - `move()`
   - `capture()`
 
+---
 > ### class `Knight` extends `Piece` implements `MoveInterface`: 騎士 繼承 棋子
-
 - properties
   - char `color`: 棋子顏色
   - char `name`: 棋子代號
@@ -195,8 +195,8 @@
   - `move()`
   - `capture()`
 
+---
 > ### class `Cell`:
-
 
 - properties
   - Piece* `currentPiece`: 目前在格子上的棋子
@@ -213,8 +213,8 @@
     - void `setCurrentPiece(piece*)`
   - pair<char, int> `getCoordinate()`: 取得西洋棋的標準座標，例如 d5, h3, a6
 
+---
 > ### class `Board`:
-
 
 - properties
   - const int `BOARD_SIZE` = 8
@@ -223,18 +223,19 @@
 - methods
 
 
+---
 > ### abstract class `Player`: 玩家 的抽象類別
-
 - properties
   
 - methods
-
+---
 > ### class `HumanPlayer`: 真實玩家
 
 - properties
 
 - methods
 
+---
 > ### class `Game`:
 
 - properties
