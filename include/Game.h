@@ -17,8 +17,8 @@ class Game{
         bool isWhiteCheckmate();
         bool isGameOver();
         void resetBoard();
-        void moveExecute(Movement);
-        bool isMoveValid(Movement);
+        void moveExecute(Movement&);
+        bool isMoveInRange(Movement&);
         bool checkWhiteTurn(); // it's either black or white.
         void switchTurn();
 };

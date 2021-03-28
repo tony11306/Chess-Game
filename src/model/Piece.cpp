@@ -9,7 +9,30 @@ char Piece::getColor() {
     return color;
 }
 
-char Piece::getPieceID() {
+bool Piece::isTargetCapturable(Piece* board[][BOARD_SIZE], Movement& movement) {
+
+    int fromX = std::get<0>(movement.getData());
+    int fromY = std::get<1>(movement.getData());
+    int toX = std::get<2>(movement.getData());
+    int toY = std::get<3>(movement.getData());
+
+    if(pieceId == EMPTY) {
+        return false;
+    }
+
+    if(color == 'w') { // is white
+        if(board[toX][toY]->getColor() == 'b') {
+            return true;
+        }
+    } else { // is black
+        if(board[toX][toY]->getColor() == 'w') {
+            return true;
+        }
+    }
+    return false;
+}
+
+ID Piece::getPieceID() {
     return pieceId;
 }
 
@@ -50,16 +73,16 @@ bool Pawn::isMoveValid(Piece* board[BOARD_SIZE][BOARD_SIZE], Movement& movement)
     // white up, black down
     if(hasMoved) {
         if(pieceId == WHITE_PAWN) {
-            if(fromX == toX && toY-fromY == 1) { // normal move up
+            if(fromX == toX && toY-fromY == 1 && board[toX][toY]->getPieceID() == EMPTY) { // normal move up
                 return true;
-            } else if(false) { // if white capture move
+            } else if() { // if white capture move
                 
             }
         } else { // if it's black pawn
 
-            if(fromX == toX && fromY-toY == 1) {
+            if(fromX == toX && fromY-toY == 1 && board[toX][toY]->getPieceID() == EMPTY) {
                 return true;
-            } else if(false) { // if black capture move
+            } else if() { // if black capture move
 
             }
 

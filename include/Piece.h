@@ -10,21 +10,19 @@ const int BOARD_SIZE = 8;
 // base class
 class Piece{
 
-    
-
     protected:
         char color;
-        char pieceId;
+        ID pieceId;
         bool isAlive;
         bool hasMoved;
         Piece();
 
     public:
         char getColor();
-        char getPieceID();
+        ID getPieceID();
         bool checkAlive();
         bool checkMoved();
-        bool isTargetCapturable(); // 判斷目標棋子是否能吃 只判斷顏色部分 或是否空
+        bool isTargetCapturable(Piece*[][BOARD_SIZE], Movement&); // 判斷目標棋子是否能吃 只判斷顏色部分 或是否空
         
         void setAlive(bool);
         void setMoved(bool);
@@ -40,9 +38,16 @@ class EmptyPiece: public Piece{
 };
 
 class Pawn: public Piece{
+    private:
+        bool pawnRule = true;
+        bool bishopRule = false;
+        bool queenRule = false;
+        bool knightRule = false;
     public:
         Pawn(char);
         bool isMoveValid(Piece* board[][BOARD_SIZE], Movement&) override;
+        bool canPromote(Piece* board[][BOARD_SIZE], Movement&);
+        bool promoteTo(ID);
 };
 
 
@@ -53,6 +58,7 @@ class Knight: public Piece{
 };
 
 class Queen: public Piece{
+
     public:
         Queen(char);
         bool isMoveValid(Piece* board[][BOARD_SIZE], Movement&) override;
@@ -62,6 +68,7 @@ class King: public Piece{
     public:
         King(char);
         bool isMoveValid(Piece* board[][BOARD_SIZE], Movement&) override;
+        bool isCastling(Piece* board[][BOARD_SIZE]);
 };
 
 class Bishop: public Piece{
