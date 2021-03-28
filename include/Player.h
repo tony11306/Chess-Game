@@ -1,16 +1,17 @@
+#include "Piece.h"
+#include <string>
+
 #ifndef PLAYER_H
 #define PLAYER_H
 
+// abstract class
 class Player {
-    public:
-        Player(char);
-        void Move(int, int, int, int);
-        char getColor();
-    private:
+    protected:
+        std::string name;
         char color;
-
+        Player();
+    public:
+        Movement virtual decide() = 0;
+        char getColor();
 };
-
-
-
 #endif

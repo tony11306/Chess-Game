@@ -7,11 +7,9 @@
 
 - properties
   - char `color`: 棋子顏色
-  - char `name`: 棋子代號
+  - char `pieceID`: 棋子代號
   - bool `isAlive`: 棋子還有沒有死
   - bool `hasMoved`: 棋子有沒有移動過
-  - int `x`: 當前 x 座標
-  - int `y`: 當前 y 座標
 
 - constructor / destructor
   - `Piece()`
@@ -42,7 +40,7 @@
 > ### class `Pawn` entends `Piece` implements `MoveInterface`: 兵 繼承 棋子
 - properties
   - char `color`: 棋子顏色
-  - char `name`: 棋子代號
+  - char `pieceID`: 棋子代號
   - bool `isAlive`: 棋子還有沒有死
   - bool `hasMoved`: 棋子有沒有移動過
   
@@ -69,7 +67,7 @@
 > ### class `Queen` extends `Piece` implements `MoveInterface`: 皇后 繼承 棋子
 - properties
   - char `color`: 棋子顏色
-  - char `name`: 棋子代號
+  - char `pieceID`: 棋子代號
   - bool `isAlive`: 棋子還有沒有死
   - bool `hasMoved`: 棋子有沒有移動過
   
@@ -95,7 +93,7 @@
 > ### class `King` extends `Piece` implements `MoveInterface`: 國王 繼承 棋子
 - properties
   - char `color`: 棋子顏色
-  - char `name`: 棋子代號
+  - char `pieceID`: 棋子代號
   - bool `isAlive`: 棋子還有沒有死
   - bool `hasMoved`: 棋子有沒有移動過
   
@@ -121,7 +119,7 @@
 > ### class `Bishop` extends `Piece` implements `MoveInterface`: 主教 繼承 棋子
 - properties
   - char `color`: 棋子顏色
-  - char `name`: 棋子代號
+  - char `pieceID`: 棋子代號
   - bool `isAlive`: 棋子還有沒有死
   - bool `hasMoved`: 棋子有沒有移動過
   
@@ -147,7 +145,7 @@
 > ### class `Castle` extends `Piece` implements `MoveInterface`: 城堡 繼承 棋子
 - properties
   - char `color`: 棋子顏色
-  - char `name`: 棋子代號
+  - char `pieceID`: 棋子代號
   - bool `isAlive`: 棋子還有沒有死
   - bool `hasMoved`: 棋子有沒有移動過
   
@@ -173,7 +171,7 @@
 > ### class `Knight` extends `Piece` implements `MoveInterface`: 騎士 繼承 棋子
 - properties
   - char `color`: 棋子顏色
-  - char `name`: 棋子代號
+  - char `pieceID`: 棋子代號
   - bool `isAlive`: 棋子還有沒有死
   - bool `hasMoved`: 棋子有沒有移動過
   
