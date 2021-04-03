@@ -1,8 +1,7 @@
+#ifndef ID_H
+#define ID_H
 
-#ifndef PIECE_ENUM
-#define PIECE_ENUM
-
-enum ID{
+enum ID {
     WHITE_PAWN = 1,
     WHITE_KNIGHT = 2,
     WHITE_BISHOP = 3,
