@@ -45,8 +45,8 @@ void Board::initBoard() {
 
     // setting for the white pieces
     squares[7][0].setPiece(new Rook('w'));
-    squares[7][1].setPiece(new Knight('w'));
-    squares[7][2].setPiece(new Bishop('w'));
+    //squares[7][1].setPiece(new Knight('w'));
+    //squares[7][2].setPiece(new Bishop('w'));
     squares[7][3].setPiece(new Queen('w'));
     squares[7][4].setPiece(new King('w'));
     squares[7][5].setPiece(new Bishop('w'));

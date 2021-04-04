@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "Board.h"
+#include "Piece.h"
 
 class Game{
 
@@ -11,6 +12,7 @@ class Game{
     public:
         Game();
         ~Game();
+        Board* getBoard();
 
 };
 #endif
