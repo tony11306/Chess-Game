@@ -38,6 +38,7 @@ class GameView {
         ~GameView();
         void draw();
         void update();
+        std::vector<sf::Sprite>& getEntities();
 };
 
 #endif

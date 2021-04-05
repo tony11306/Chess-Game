@@ -8,7 +8,6 @@
 class GameSceneController: public SceneController {
     private:
         sf::RenderWindow* window;
-        Game* game;
         GameView* view;
 
     public:

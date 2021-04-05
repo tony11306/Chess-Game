@@ -81,3 +81,7 @@ void GameView::draw() {
     }
 }
 
+std::vector<sf::Sprite>& GameView::getEntities() {
+    return pieceEntities;
+}
+

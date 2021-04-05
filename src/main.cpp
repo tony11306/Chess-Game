@@ -12,6 +12,7 @@ int main() {
     window.setFramerateLimit(FPS_LIMIT);
     GameSceneController gameSceneController(&window);
     gameSceneController.run();
+    window.close();
     // Game game = Game();
     system("pause");
     return 0;

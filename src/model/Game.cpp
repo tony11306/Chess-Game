@@ -17,10 +17,16 @@ Game::Game() {
     // }
 }
 
+
+
 Game::~Game() {
     delete board;
 }
 
 Board* Game::getBoard() {
     return board;
+}
+
+void Game::moveExecute(MoveData& moveData) {
+    board->movePiece(moveData);
 }

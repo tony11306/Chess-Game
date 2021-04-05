@@ -13,6 +13,7 @@ class Game{
         Game();
         ~Game();
         Board* getBoard();
+        void moveExecute(MoveData&);
 
 };
 #endif
