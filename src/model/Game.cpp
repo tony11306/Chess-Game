@@ -7,17 +7,8 @@
 Game::Game() {
     board = new Board();
     board->initBoard();
-    // int a, b, c, d;
-    // board->print();
-    // while(std::cin >> a >> b >> c >> d) {
-        // MoveData md = MoveData(a, b, c, d);
-        // board->movePiece(md);
-        // board->print();
-
-    // }
+    isWhiteTurn = true;
 }
-
-
 
 Game::~Game() {
     delete board;
@@ -28,5 +19,30 @@ Board* Game::getBoard() {
 }
 
 void Game::moveExecute(MoveData& moveData) {
+    if(board->getPieceAtSquare(moveData.getFromX(), moveData.getFromY()) == nullptr) {
+        return;
+    }
+
+    if(board->getPieceAtSquare(moveData.getFromX(), moveData.getFromY())->getColor() == 'b' && isWhiteTurn) {
+        return;
+    }
+
+    if(board->getPieceAtSquare(moveData.getFromX(), moveData.getFromY())->getColor() == 'w' && !isWhiteTurn) {
+        return;
+    }
+
+    Piece* previousPiece = board->getPieceAtSquare(moveData.getFromX(), moveData.getFromY());
+
     board->movePiece(moveData);
+
+    if(previousPiece != board->getPieceAtSquare(moveData.getFromX(), moveData.getFromY())) {
+        switchTurn();
+    }
+
+    
 }
+
+void Game::switchTurn() {
+    isWhiteTurn = !isWhiteTurn;
+}
+

@@ -147,7 +147,8 @@ void Board::movePiece(MoveData& moveData) {
             
         } else {
 
-            if(squares[fromX][toY].getPiece() == nullptr) {
+            if(squares[toX][toY].getPiece() != nullptr) {
+                squares[toX][toY].deletePiece();
                 squares[toX][toY].setPiece(squares[fromX][fromY].getPiece());
                 squares[fromX][fromY].setPiece(nullptr);
             } else { // en passant
@@ -232,7 +233,7 @@ bool Board::isBlackCheckmate() {
                 }
                 MoveData moveData = MoveData(i, j, blackKingPosition.first, blackKingPosition.second);
                 if(getPieceAtSquare(i, j)->isMoveValid(moveData, *this)) {
-                    // std::cout << "black checkmate!\n";
+                    std::cout << "black checkmate!\n";
                     return true;
                 }
             }
@@ -251,7 +252,7 @@ bool Board::isWhiteCheckmate() {
                 MoveData moveData = MoveData(i, j, whiteKingPosition.first, whiteKingPosition.second);
                 if(getPieceAtSquare(i, j)->isMoveValid(moveData, *this)) {
                     // std::cout << i << " " << j << "\n";
-                    // std::cout << "white checkmate!\n";
+                    std::cout << "white checkmate!\n";
                     return true;
                 }
             }

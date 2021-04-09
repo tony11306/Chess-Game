@@ -56,10 +56,8 @@ bool Pawn::isMoveValid(MoveData& moveData, Board& board) {
     if(pieceId == WHITE_PAWN) {
 
         if(toX - fromX == -1 && abs(toY-fromY) == 1) { // capture move
-            if(board.getPieceAtSquare(fromX, toY) == nullptr) {
-                if(board.getPieceAtSquare(toX, toY) != nullptr) {
-                    return true;
-                }
+            if(board.getPieceAtSquare(toX, toY) != nullptr) {
+                return true;
             }
         }
 
@@ -80,11 +78,10 @@ bool Pawn::isMoveValid(MoveData& moveData, Board& board) {
     } else { // black pawn
 
         if(toX - fromX == 1 && abs(toY-fromY) == 1) { // capture move
-            if(board.getPieceAtSquare(fromX, toY) == nullptr) {
-                if(board.getPieceAtSquare(toX, toY) != nullptr) {
-                    return true;
-                }
+            if(board.getPieceAtSquare(toX, toY) != nullptr) {
+                return true;
             }
+            
         }
 
         if(fromY == toY && toX - fromX == 1) {

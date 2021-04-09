@@ -35,7 +35,7 @@ bool King::isMoveValid(MoveData& moveData, Board& board) {
         return false;
     }
     Piece* tmpPiece = board.getPieceAtSquare(toX, toY);
-    board.getSquareAt(toX, toY)->setPiece(nullptr);
+    board.getSquareAt(toX, toY)->setPiece(this);
     for(int i = 0; i < BOARD_SIZE; ++i) { // check if the move can cause checkmate
         for(int j = 0; j < BOARD_SIZE; ++j) {
             if(board.getPieceAtSquare(i, j) == nullptr) {
@@ -85,26 +85,6 @@ bool King::isCastlingMoveValid(MoveData& moveData, Board& board) {
     if((pieceId == BLACK_KING && fromX != 0) || (pieceId == WHITE_KING && fromX != 7)) {
         return false;
     }
-
-
-    /*
-    if(board.getPieceAtSquare(fromX, 7) == nullptr || (toY-fromY > 0 && board.getPieceAtSquare(fromX, 7)->getColor() != color)) { // king side castling
-        return false;
-    } else if(board.getPieceAtSquare(fromX, 7)->getPieceID() != WHITE_ROOK || board.getPieceAtSquare(fromX, 7)->getPieceID() != BLACK_ROOK) {
-        return false;
-    } else if(board.getPieceAtSquare(fromX, 7)->checkMoved()) {
-        return false;
-    }
-
-
-    if(board.getPieceAtSquare(fromX, 0) == nullptr || (toY-fromY > 0 && board.getPieceAtSquare(fromX, 0)->getColor() != color)) { // queen side castling
-        return false;
-    } else if(board.getPieceAtSquare(fromX, 0)->getPieceID() != WHITE_ROOK || board.getPieceAtSquare(fromX, 0)->getPieceID() != BLACK_ROOK) {
-        return false;
-    } else if(board.getPieceAtSquare(fromX, 7)->checkMoved()) {
-        return false;
-    }
-    */
 
     if(toY-fromY > 0) { // king side
         if(board.getPieceAtSquare(fromX, 7) == nullptr) {

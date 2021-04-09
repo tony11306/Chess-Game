@@ -8,6 +8,8 @@ class Game{
 
     private:
         Board* board;
+        bool isWhiteTurn;
+        void switchTurn();
 
     public:
         Game();
