@@ -1,5 +1,6 @@
 #include "Piece.h"
 #include "Board.h"
+#include <iostream>
 
 Piece::Piece() {
 }
@@ -8,16 +9,8 @@ ID Piece::getPieceID() {
     return pieceId;
 }
 
-bool Piece::checkAlive() {
-    return isAlive;
-}
-
 bool Piece::checkMoved() {
     return hasMoved;
-}
-
-void Piece::setAlive(bool alive) {
-    isAlive = alive;
 }
 
 void Piece::setMoved(bool moved) {
@@ -38,4 +31,39 @@ bool Piece::isTargetFriendly(int targetX, int targetY, Board& board) {
         return true;
     }
     return false;
+}
+
+bool Piece::isMoveGoingToCheckmate(MoveData& moveData, Board& board) {
+    // before calling this function
+    // it has to make sure that the fromX and fromY is this piece
+    // otherwise it's going to bugged out.
+
+    int fromX = moveData.getFromX();
+    int fromY = moveData.getFromY();
+    int toX = moveData.getToX();
+    int toY = moveData.getToY();
+
+    Piece* tmpPiece = board.getPieceAtSquare(toX, toY);
+
+    board.getSquareAt(fromX, fromY)->setPiece(nullptr);
+    
+    board.getSquareAt(toX, toY)->setPiece(this);
+
+    bool isCheckmate = false;
+    if(pieceId > 0) { // the moving piece is white
+        if(board.isWhiteCheckmate()) {
+            isCheckmate = true;
+        }
+    } else { // the moving piece is black
+        if(board.isBlackCheckmate()) {
+            isCheckmate = true;
+        }
+    }
+
+    board.getSquareAt(fromX, fromY)->setPiece(this);
+    board.getSquareAt(toX, toY)->setPiece(tmpPiece);
+    return isCheckmate;
+
+    
+
 }

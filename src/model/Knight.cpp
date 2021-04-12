@@ -7,12 +7,11 @@ Knight::Knight(char color) {
     } else {
         pieceId = BLACK_KNIGHT;
     }
-    isAlive = true;
     hasMoved = false;
     this->color = color;
 }
 
-bool Knight::isMoveValid(MoveData& moveData, Board& board) {
+bool Knight::isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLock) {
     int fromX = moveData.getFromX();
     int fromY = moveData.getFromY();
     int toX = moveData.getToX();
@@ -35,6 +34,9 @@ bool Knight::isMoveValid(MoveData& moveData, Board& board) {
 
     for(int i = 0; i < 8; ++i) {
         if(fromX + step[i].first == toX && fromY + step[i].second == toY) {
+            if(!checkmateDetectLock && isMoveGoingToCheckmate(moveData, board)) {
+                return false;
+            }
             return true;
         }
     }

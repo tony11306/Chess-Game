@@ -10,7 +10,7 @@ class Bishop: public Piece {
 
     public:
         Bishop(char color);
-        bool isMoveValid(MoveData&, Board&) override;
+        bool isMoveValid(MoveData&, Board&, bool checkmateDetectLock=false) override;
 
 };
 

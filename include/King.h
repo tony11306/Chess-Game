@@ -10,7 +10,7 @@ class King: public Piece{
     public:
 
         King(char color);
-        bool isMoveValid(MoveData& moveData, Board& board) override;
+        bool isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLock=false) override;
         bool isCastlingMoveValid(MoveData& moveData, Board& board);
 };
 

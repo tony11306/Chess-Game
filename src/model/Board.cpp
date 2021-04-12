@@ -56,30 +56,8 @@ void Board::initBoard() {
         squares[6][i].setPiece(new Pawn('w'));
     }
 
-    blackKingPosition = {0, 3};
-    whiteKingPosition = {7, 3};
-}
-
-
-void Board::print() {
-    for(int i = 0; i < BOARD_SIZE; ++i) {
-        std::cout << std::setw(4) << i;
-        for(int j = 0; j < BOARD_SIZE; ++j) {
-            if(squares[i][j].getPiece() != nullptr) {
-                std::cout << std::setw(3) << squares[i][j].getPiece()->getPieceID();
-            } else {
-                std::cout << std::setw(3) << "-";
-            }
-            
-        }
-        std::cout << "\n";
-    }
-    std::cout << "\n";
-    std::cout << std::setw(3) << " ";
-    for(int i = 0; i < BOARD_SIZE; ++i) {
-        std::cout << std::setw(3) << i;
-    }
-    std::cout << "\n";
+    blackKingPosition = {0, 4};
+    whiteKingPosition = {7, 4};
 }
 
 void Board::movePiece(MoveData& moveData) {
@@ -102,6 +80,7 @@ void Board::movePiece(MoveData& moveData) {
         std::cout << "invalid move!\n";
         return;
     }
+
 
 
     // when the move is valid, do the move and check 
@@ -232,7 +211,7 @@ bool Board::isBlackCheckmate() {
                     continue;
                 }
                 MoveData moveData = MoveData(i, j, blackKingPosition.first, blackKingPosition.second);
-                if(getPieceAtSquare(i, j)->isMoveValid(moveData, *this)) {
+                if(getPieceAtSquare(i, j)->isMoveValid(moveData, *this, true)) {
                     std::cout << "black checkmate!\n";
                     return true;
                 }
@@ -250,8 +229,9 @@ bool Board::isWhiteCheckmate() {
                     continue;
                 }
                 MoveData moveData = MoveData(i, j, whiteKingPosition.first, whiteKingPosition.second);
-                if(getPieceAtSquare(i, j)->isMoveValid(moveData, *this)) {
+                if(getPieceAtSquare(i, j)->isMoveValid(moveData, *this, true)) {
                     // std::cout << i << " " << j << "\n";
+                    // std::cout << "white king position: " << whiteKingPosition.first << " " << whiteKingPosition.second << "\n";
                     std::cout << "white checkmate!\n";
                     return true;
                 }

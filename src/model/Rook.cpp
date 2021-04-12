@@ -7,12 +7,11 @@ Rook::Rook(char color) {
     } else {
         pieceId = BLACK_ROOK;
     }
-    isAlive = true;
     hasMoved = false;
     this->color = color;
 }
 
-bool Rook::isMoveValid(MoveData& moveData, Board& board) {
+bool Rook::isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLock) {
     int fromX = moveData.getFromX();
     int fromY = moveData.getFromY();
     int toX = moveData.getToX();
@@ -42,6 +41,9 @@ bool Rook::isMoveValid(MoveData& moveData, Board& board) {
             }
             
         }
+        if(!checkmateDetectLock && isMoveGoingToCheckmate(moveData, board)) {
+            return false;
+        }
         return true;
     }
     
@@ -59,6 +61,9 @@ bool Rook::isMoveValid(MoveData& moveData, Board& board) {
                 return false;
             }
             
+        }
+        if(!checkmateDetectLock && isMoveGoingToCheckmate(moveData, board)) {
+            return false;
         }
         return true;
     }

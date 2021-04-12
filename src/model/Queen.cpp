@@ -8,12 +8,11 @@ Queen::Queen(char color) {
     } else {
         pieceId = BLACK_QUEEN;
     }
-    isAlive = true;
     hasMoved = false;
     this->color = color;
 }
 
-bool Queen::isMoveValid(MoveData& moveData, Board& board) {
+bool Queen::isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLock) {
     int fromX = moveData.getFromX();
     int fromY = moveData.getFromY();
     int toX = moveData.getToX();
@@ -46,6 +45,9 @@ bool Queen::isMoveValid(MoveData& moveData, Board& board) {
                 return false;
             }
         }
+        if(!checkmateDetectLock && isMoveGoingToCheckmate(moveData, board)) {
+            return false;
+        }
         return true;
     
     }
@@ -66,6 +68,9 @@ bool Queen::isMoveValid(MoveData& moveData, Board& board) {
                 }
                 
             }
+            if(!checkmateDetectLock && isMoveGoingToCheckmate(moveData, board)) {
+                return false;
+            }
             return true;
         }
         
@@ -83,6 +88,9 @@ bool Queen::isMoveValid(MoveData& moveData, Board& board) {
                     return false;
                 }
                 
+            }
+            if(!checkmateDetectLock && isMoveGoingToCheckmate(moveData, board)) {
+                return false;
             }
             return true;
         }

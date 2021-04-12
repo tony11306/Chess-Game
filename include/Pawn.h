@@ -11,7 +11,7 @@ class Pawn: public Piece {
     public:
 
         Pawn(char color);
-        bool isMoveValid(MoveData& moveData, Board& board) override;
+        bool isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLock=false) override;
         bool isEnPassantMove(MoveData& moveData, Board& board);
         void setCanBeEnPassant(bool);
         bool checkCanBeEnPassant();

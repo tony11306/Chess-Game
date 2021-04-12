@@ -12,18 +12,16 @@ class Piece {
     protected:
         char color;
         ID pieceId;
-        bool isAlive;
         bool hasMoved;
         Piece();
     public:
         char getColor();
         ID getPieceID();
-        bool checkAlive();
         bool checkMoved();
-        void setAlive(bool);
         void setMoved(bool);
-        virtual bool isMoveValid(MoveData& moveData, Board& board) = 0;
+        virtual bool isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLock=false) = 0;
         bool isTargetFriendly(int targetX, int targetY, Board& board);
+        bool isMoveGoingToCheckmate(MoveData& moveData, Board& board);
 
 };
 

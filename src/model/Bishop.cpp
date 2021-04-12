@@ -7,12 +7,11 @@ Bishop::Bishop(char color) {
     } else {
         pieceId = BLACK_BISHOP;
     }
-    isAlive = true;
     hasMoved = false;
     this->color = color;
 }
 
-bool Bishop::isMoveValid(MoveData& moveData, Board& board) {
+bool Bishop::isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLock) {
     // only check if it's diagonal
     // checking if it's out of range should be done outside
     int fromX = moveData.getFromX();
@@ -46,6 +45,9 @@ bool Bishop::isMoveValid(MoveData& moveData, Board& board) {
             if(board.getPieceAtSquare(i, j) != nullptr) {
                 return false;
             }
+        }
+        if(!checkmateDetectLock && isMoveGoingToCheckmate(moveData, board)) {
+            return false;
         }
         return true;
     }

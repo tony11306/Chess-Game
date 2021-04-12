@@ -8,12 +8,11 @@ King::King(char color) {
     } else {
         pieceId = BLACK_KING;
     }
-    isAlive = true;
     hasMoved = false;
     this->color = color;
 }
 
-bool King::isMoveValid(MoveData& moveData, Board& board) {
+bool King::isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLock) {
     int fromX = moveData.getFromX();
     int fromY = moveData.getFromY();
     int toX = moveData.getToX();
@@ -35,6 +34,7 @@ bool King::isMoveValid(MoveData& moveData, Board& board) {
         return false;
     }
     Piece* tmpPiece = board.getPieceAtSquare(toX, toY);
+    board.getSquareAt(fromX, fromY)->setPiece(nullptr);
     board.getSquareAt(toX, toY)->setPiece(this);
     for(int i = 0; i < BOARD_SIZE; ++i) { // check if the move can cause checkmate
         for(int j = 0; j < BOARD_SIZE; ++j) {
@@ -49,11 +49,13 @@ bool King::isMoveValid(MoveData& moveData, Board& board) {
             MoveData md = MoveData(i, j, toX, toY);
             if(board.getPieceAtSquare(i, j)->isMoveValid(md, board)) { // 
                 board.getSquareAt(toX, toY)->setPiece(tmpPiece);
+                board.getSquareAt(fromX, fromY)->setPiece(this);
                 return false;
             }
         }
     }
 
+    board.getSquareAt(fromX, fromY)->setPiece(this);
     board.getSquareAt(toX, toY)->setPiece(tmpPiece);
     return true;
 

@@ -10,7 +10,7 @@ class Knight: public Piece{
     public:
 
         Knight(char color);
-        bool isMoveValid(MoveData& moveData, Board& board) override;
+        bool isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLock=false) override;
 
 };
 

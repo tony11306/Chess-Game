@@ -11,7 +11,7 @@ class Queen: public Piece {
     public:
 
         Queen(char color);
-        bool isMoveValid(MoveData& moveData, Board& board) override;
+        bool isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLock=false) override;
 
 };
 

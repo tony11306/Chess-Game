@@ -1,5 +1,6 @@
 #include "Pawn.h"
 #include "Board.h"
+#include <iostream>
 
 
 Pawn::Pawn(char color) {
@@ -8,7 +9,6 @@ Pawn::Pawn(char color) {
     } else {
         pieceId = BLACK_PAWN;
     }
-    isAlive = true;
     hasMoved = false;
     this->color = color;
     canBeEnPassant = false;
@@ -43,7 +43,7 @@ bool Pawn::isEnPassantMove(MoveData& moveData, Board& board) {
 
 }
 
-bool Pawn::isMoveValid(MoveData& moveData, Board& board) {
+bool Pawn::isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLock) {
     int fromX = moveData.getFromX();
     int fromY = moveData.getFromY();
     int toX = moveData.getToX();
@@ -57,12 +57,18 @@ bool Pawn::isMoveValid(MoveData& moveData, Board& board) {
 
         if(toX - fromX == -1 && abs(toY-fromY) == 1) { // capture move
             if(board.getPieceAtSquare(toX, toY) != nullptr) {
+                if(!checkmateDetectLock &&isMoveGoingToCheckmate(moveData, board)) {
+                    return false;
+                }
                 return true;
             }
         }
 
         if(fromY == toY && toX - fromX == -1) {
             if(board.getPieceAtSquare(toX, toY) == nullptr) {
+                if(!checkmateDetectLock && isMoveGoingToCheckmate(moveData, board)) {
+                    return false;
+                }
                 return true;
             }
         }
@@ -70,6 +76,10 @@ bool Pawn::isMoveValid(MoveData& moveData, Board& board) {
         if(!hasMoved) { // first move
             if(fromY == toY && toX - fromX == -2) {
                 if(board.getPieceAtSquare(toX, toY) == nullptr) {
+                    if(!checkmateDetectLock && isMoveGoingToCheckmate(moveData, board)) {
+                        
+                        return false;
+                    }
                     return true;
                 }
             }
@@ -79,6 +89,9 @@ bool Pawn::isMoveValid(MoveData& moveData, Board& board) {
 
         if(toX - fromX == 1 && abs(toY-fromY) == 1) { // capture move
             if(board.getPieceAtSquare(toX, toY) != nullptr) {
+                if(!checkmateDetectLock && isMoveGoingToCheckmate(moveData, board)) {
+                    return false;
+                }
                 return true;
             }
             
@@ -86,6 +99,9 @@ bool Pawn::isMoveValid(MoveData& moveData, Board& board) {
 
         if(fromY == toY && toX - fromX == 1) {
             if(board.getPieceAtSquare(toX, toY) == nullptr) {
+                if(!checkmateDetectLock && isMoveGoingToCheckmate(moveData, board)) {
+                    return false;
+                }
                 return true;
             }
         }
@@ -93,6 +109,9 @@ bool Pawn::isMoveValid(MoveData& moveData, Board& board) {
         if(!hasMoved) { // first move
             if(fromY == toY && toX - fromX == 2) {
                 if(board.getPieceAtSquare(toX, toY) == nullptr) {
+                    if(!checkmateDetectLock && isMoveGoingToCheckmate(moveData, board)) {
+                        return false;
+                    }
                     return true;
                 }
             }
@@ -101,6 +120,9 @@ bool Pawn::isMoveValid(MoveData& moveData, Board& board) {
     }
 
     if(isEnPassantMove(moveData, board)) {
+        if(!checkmateDetectLock && isMoveGoingToCheckmate(moveData, board)) {
+            return false;
+        }
         return true;
     }
 

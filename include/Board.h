@@ -23,7 +23,6 @@ class Board {
     public:
 
         Board();
-        void print();
         void initBoard();
         void movePiece(MoveData&);
         Piece* getPieceAtSquare(int row, int col);
