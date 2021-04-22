@@ -1,6 +1,5 @@
 #include "Game.h"
-#include <SFML/Graphics.hpp>
-#include <vector>
+#include <View.h>
 
 #ifndef GAME_VIEW_H
 #define GAME_VIEW_H
@@ -9,12 +8,9 @@ const float PIECE_HORIZONTAL_GAP = 95.5;
 const float PIECE_VERTICAL_GAP = 95.5;
 
 
-class GameView {
+class GameView : public View {
     private: 
         Game* game;
-        sf::RenderWindow* window;
-        std::vector<sf::Sprite> pieceEntities;
-
         sf::Texture BLACK_KING_TEXTURE;
         sf::Texture BLACK_QUEEN_TEXTURE;
         sf::Texture BLACK_BISHOP_TEXTURE;
@@ -38,7 +34,6 @@ class GameView {
         ~GameView();
         void draw();
         void update();
-        std::vector<sf::Sprite>& getEntities();
 };
 
 #endif
