@@ -13,7 +13,7 @@ MenuView::~MenuView() {
 
 void MenuView::update() {
     buttonEntities.clear();
-    buttonEntities.push_back(sf::Sprite(BACKGROUND_TEXTURE));
+    // buttonEntities.push_back(sf::Sprite(BACKGROUND_TEXTURE)); 
     //buttonEntities.back().setPosition(30.f + (j*PIECE_VERTICAL_GAP), 15.0f + (i*PIECE_HORIZONTAL_GAP));//調整位置
 }
 

@@ -13,8 +13,9 @@ class View {
         
     public:
         View(sf::RenderWindow*);
+        virtual ~View();
         virtual void draw();
-        virtual void update();
+        virtual void update() = 0;
         std::vector<sf::Sprite>& getEntities();
 };
 

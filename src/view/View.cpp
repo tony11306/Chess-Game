@@ -12,3 +12,7 @@ void View::draw() {
         window->draw(itemsToDraw[i]);
     }
 }
+
+View::~View() {
+    
+}

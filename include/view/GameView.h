@@ -32,8 +32,7 @@ class GameView : public View {
 
         GameView(sf::RenderWindow*, Game*);
         ~GameView();
-        void draw();
-        void update();
+        void update() override;
 };
 
 #endif
