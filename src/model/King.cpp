@@ -138,3 +138,7 @@ bool King::isCastlingMoveValid(MoveData& moveData, Board& board) {
 
 
 }
+
+std::vector<MoveData> King::getPossibleMoves(int currentRow, int currentCol, Board& board) {
+    
+}

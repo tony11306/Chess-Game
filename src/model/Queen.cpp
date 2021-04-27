@@ -100,3 +100,7 @@ bool Queen::isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLo
 
     return false;
 }
+
+std::vector<MoveData> Queen::getPossibleMoves(int currentRow, int currentCol, Board& board) {
+    
+}

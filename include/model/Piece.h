@@ -4,6 +4,7 @@
 #include "PieceIDEnum.h"
 #include "MoveData.h"
 #include <cmath>
+#include <vector>
 
 class Board;
 
@@ -20,6 +21,7 @@ class Piece {
         bool checkMoved();
         void setMoved(bool);
         virtual bool isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLock=false) = 0;
+        virtual std::vector<MoveData> getPossibleMoves(int currentRow, int currentCol, Board& board) = 0;
         bool isTargetFriendly(int targetX, int targetY, Board& board);
         bool isMoveGoingToCheckmate(MoveData& moveData, Board& board);
 

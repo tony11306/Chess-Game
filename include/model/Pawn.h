@@ -12,6 +12,7 @@ class Pawn: public Piece {
 
         Pawn(char color);
         bool isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLock=false) override;
+        std::vector<MoveData> getPossibleMoves(int currentRow, int currentCol, Board& board) override;
         bool isEnPassantMove(MoveData& moveData, Board& board);
         void setCanBeEnPassant(bool);
         bool checkCanBeEnPassant();

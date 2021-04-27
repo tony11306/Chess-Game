@@ -136,3 +136,48 @@ void Pawn::setCanBeEnPassant(bool canBeEnPassant) {
 bool Pawn::checkCanBeEnPassant() {
     return canBeEnPassant;
 }
+
+std::vector<MoveData> Pawn::getPossibleMoves(int currentX, int currentY, Board& board) {
+    std::vector<MoveData> result;
+    MoveData moveData = MoveData(currentX, currentY, currentX+1, currentY+1);
+    if(isMoveValid(moveData, board)) {
+        result.push_back(moveData);
+    }
+
+    moveData = MoveData(currentX, currentY, currentX+1, currentY-1);
+    if(isMoveValid(moveData, board)) {
+        result.push_back(moveData);
+    }
+
+    moveData = MoveData(currentX, currentY, currentX-1, currentY+1);
+    if(isMoveValid(moveData, board)) {
+        result.push_back(moveData);
+    }
+
+    moveData = MoveData(currentX, currentY, currentX-1, currentY-1);
+    if(isMoveValid(moveData, board)) {
+        result.push_back(moveData);
+    }
+
+    moveData = MoveData(currentX, currentY, currentX+2, currentY);
+    if(isMoveValid(moveData, board)) {
+        result.push_back(moveData);
+    }
+
+    moveData = MoveData(currentX, currentY, currentX-2, currentY);
+    if(isMoveValid(moveData, board)) {
+        result.push_back(moveData);
+    }
+
+    moveData = MoveData(currentX, currentY, currentX+1, currentY);
+    if(isMoveValid(moveData, board)) {
+        result.push_back(moveData);
+    }
+
+    moveData = MoveData(currentX, currentY, currentX-1, currentY);
+    if(isMoveValid(moveData, board)) {
+        result.push_back(moveData);
+    }
+
+    return result;
+}

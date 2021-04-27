@@ -71,3 +71,7 @@ bool Rook::isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLoc
 
     return false;
 }
+
+std::vector<MoveData> Rook::getPossibleMoves(int currentRow, int currentCol, Board& board) {
+    
+}

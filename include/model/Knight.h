@@ -11,6 +11,7 @@ class Knight: public Piece{
 
         Knight(char color);
         bool isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLock=false) override;
+        std::vector<MoveData> getPossibleMoves(int currentRow, int currentCol, Board& board) override;
 
 };
 

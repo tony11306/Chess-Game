@@ -54,5 +54,38 @@ bool Bishop::isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectL
 
     return false;
 
+}
 
+std::vector<MoveData> Bishop::getPossibleMoves(int currentX, int currentY, Board& board) {
+    std::vector<MoveData> result;
+
+    for(int x = currentX+1, y = currentY+1; x < BOARD_SIZE && y < BOARD_SIZE; ++x, ++y) {
+        MoveData moveData = MoveData(currentX, currentY, x, y);
+        if(isMoveValid(moveData, board)) {
+            result.push_back(moveData);
+        }
+    }
+
+    for(int x = currentX+1, y = currentY-1; x < BOARD_SIZE && y < BOARD_SIZE; ++x, --y) {
+        MoveData moveData = MoveData(currentX, currentY, x, y);
+        if(isMoveValid(moveData, board)) {
+            result.push_back(moveData);
+        }
+    }
+
+    for(int x = currentX-1, y = currentY+1; x < BOARD_SIZE && y < BOARD_SIZE; --x, ++y) {
+        MoveData moveData = MoveData(currentX, currentY, x, y);
+        if(isMoveValid(moveData, board)) {
+            result.push_back(moveData);
+        }
+    }
+
+    for(int x = currentX-1, y = currentY-1; x < BOARD_SIZE && y < BOARD_SIZE; --x, --y) {
+        MoveData moveData = MoveData(currentX, currentY, x, y);
+        if(isMoveValid(moveData, board)) {
+            result.push_back(moveData);
+        }
+    }
+
+    return result;
 }
