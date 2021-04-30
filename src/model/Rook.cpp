@@ -72,6 +72,38 @@ bool Rook::isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLoc
     return false;
 }
 
-std::vector<MoveData> Rook::getPossibleMoves(int currentRow, int currentCol, Board& board) {
-    
+std::vector<MoveData> Rook::getPossibleMoves(int currentX, int currentY, Board& board) {
+
+    std::vector<MoveData> result;
+
+    for(int i = currentX+1; i < BOARD_SIZE; ++i) {
+        MoveData moveData = MoveData(currentX, currentY, i, currentY);
+        if(isMoveValid(moveData, board)) {
+            result.push_back(moveData);
+        }
+    }
+
+    for(int i = currentX-1; i >=0; --i) {
+        MoveData moveData = MoveData(currentX, currentY, i, currentY);
+        if(isMoveValid(moveData, board)) {
+            result.push_back(moveData);
+        }
+    }
+
+    for(int i = currentY+1; i < BOARD_SIZE; ++i) {
+        MoveData moveData = MoveData(currentX, currentY, currentX, i);
+        if(isMoveValid(moveData, board)) {
+            result.push_back(moveData);
+        }
+    }
+
+    for(int i = currentY-1; i >= 0; --i) {
+        MoveData moveData = MoveData(currentX, currentY, currentX, i);
+        if(isMoveValid(moveData, board)) {
+            result.push_back(moveData);
+        }
+    }
+
+
+    return result;
 }

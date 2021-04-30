@@ -101,6 +101,64 @@ bool Queen::isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLo
     return false;
 }
 
-std::vector<MoveData> Queen::getPossibleMoves(int currentRow, int currentCol, Board& board) {
-    
+std::vector<MoveData> Queen::getPossibleMoves(int currentX, int currentY, Board& board) {
+    std::vector<MoveData> result;
+
+    for(int x = currentX+1, y = currentY+1; x < BOARD_SIZE && y < BOARD_SIZE; ++x, ++y) {
+        MoveData moveData = MoveData(currentX, currentY, x, y);
+        if(isMoveValid(moveData, board)) {
+            result.push_back(moveData);
+        }
+    }
+
+    for(int x = currentX+1, y = currentY-1; x < BOARD_SIZE && y >= 0; ++x, --y) {
+        MoveData moveData = MoveData(currentX, currentY, x, y);
+        if(isMoveValid(moveData, board)) {
+            result.push_back(moveData);
+        }
+    }
+
+    for(int x = currentX-1, y = currentY+1; x >= 0 && y < BOARD_SIZE; --x, ++y) {
+        MoveData moveData = MoveData(currentX, currentY, x, y);
+        if(isMoveValid(moveData, board)) {
+            result.push_back(moveData);
+        }
+    }
+
+    for(int x = currentX-1, y = currentY-1; x >= 0 && y >= 0; --x, --y) {
+        MoveData moveData = MoveData(currentX, currentY, x, y);
+        if(isMoveValid(moveData, board)) {
+            result.push_back(moveData);
+        }
+    }
+
+    for(int i = currentX+1; i < BOARD_SIZE; ++i) {
+        MoveData moveData = MoveData(currentX, currentY, i, currentY);
+        if(isMoveValid(moveData, board)) {
+            result.push_back(moveData);
+        }
+    }
+
+    for(int i = currentX-1; i >=0; --i) {
+        MoveData moveData = MoveData(currentX, currentY, i, currentY);
+        if(isMoveValid(moveData, board)) {
+            result.push_back(moveData);
+        }
+    }
+
+    for(int i = currentY+1; i < BOARD_SIZE; ++i) {
+        MoveData moveData = MoveData(currentX, currentY, currentX, i);
+        if(isMoveValid(moveData, board)) {
+            result.push_back(moveData);
+        }
+    }
+
+    for(int i = currentY-1; i >= 0; --i) {
+        MoveData moveData = MoveData(currentX, currentY, currentX, i);
+        if(isMoveValid(moveData, board)) {
+            result.push_back(moveData);
+        }
+    }
+
+    return result;
 }

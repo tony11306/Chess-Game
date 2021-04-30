@@ -57,7 +57,7 @@ void GameSceneController::handleEvents() {
 
                 if(!isDragging) {
 
-                    dragFromX = (mouseX-30)/PIECE_HORIZONTAL_GAP;
+                    dragFromX = (mouseX-30)/PIECE_HORIZONTAL_GAP; // the variable name needs to be refactor
                     dragFromY = (mouseY-15)/PIECE_VERTICAL_GAP;
 
                     for(int i = 1; i < view->getEntities().size(); ++i) {
@@ -66,6 +66,17 @@ void GameSceneController::handleEvents() {
                             
                             isDragging = true;
                             draggingPieceIndex = i;
+                            Board* board = game->getBoard();
+                            
+                            std::vector<MoveData> possibleMoves = board->getPieceAtSquare(dragFromY, dragFromX)->getPossibleMoves(dragFromY, dragFromX, *board);
+                            
+                            std::cout << "-------" << std::endl;
+                            std::cout << "Possible move:" << std::endl;
+                            
+                            for(int i = 0; i < possibleMoves.size(); ++i) {
+                                std::cout << possibleMoves[i].getFromY() << " " << possibleMoves[i].getFromX() << " " << possibleMoves[i].getToY() << " " << possibleMoves[i].getToX() << std::endl;
+                            }
+                            std::cout << "-------" << std::endl;
                             
                             break;
                         }

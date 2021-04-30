@@ -22,6 +22,22 @@ bool King::isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLoc
         return false;
     }
 
+    if(toX < 0 || toY < 0) {
+        return false;
+    }
+
+    if(toX >= BOARD_SIZE || toY >= BOARD_SIZE) {
+        return false;
+    }
+
+    if(fromX < 0 || fromY < 0) {
+        return false;
+    }
+
+    if(fromX >= BOARD_SIZE || fromY >= BOARD_SIZE) {
+        return false;
+    }
+
     if(fromX == toX && fromY == toY) {
         return false;
     }
@@ -33,6 +49,8 @@ bool King::isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLoc
     if(abs(toX-fromX) > 1 || abs(toY-fromY) > 1) { // king must move only move 0 or 1 square vertically and move 0 or 1 square horizontally
         return false;
     }
+
+    
     Piece* tmpPiece = board.getPieceAtSquare(toX, toY);
     board.getSquareAt(fromX, fromY)->setPiece(nullptr);
     board.getSquareAt(toX, toY)->setPiece(this);
@@ -57,6 +75,7 @@ bool King::isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLoc
 
     board.getSquareAt(fromX, fromY)->setPiece(this);
     board.getSquareAt(toX, toY)->setPiece(tmpPiece);
+    
     return true;
 
 
@@ -67,6 +86,7 @@ bool King::isCastlingMoveValid(MoveData& moveData, Board& board) {
     int fromY = moveData.getFromY();
     int toX = moveData.getToX();
     int toY = moveData.getToY();
+
 
     if(hasMoved) { // if it has moved
         return false;
@@ -133,12 +153,39 @@ bool King::isCastlingMoveValid(MoveData& moveData, Board& board) {
         }
     }
 
-    // std::cout << "test\n";
     return true;
 
 
 }
 
-std::vector<MoveData> King::getPossibleMoves(int currentRow, int currentCol, Board& board) {
-    
+std::vector<MoveData> King::getPossibleMoves(int currentX, int currentY, Board& board) {
+    std::vector<MoveData> result;
+
+    for(int i = -1; i < 2; ++i) {
+        for(int j = -1; j < 2; ++j) {
+            if(i == 0 && j == 0) {
+                continue;
+            }
+            MoveData moveData = MoveData(currentX, currentY, currentX+i, currentY+j);
+            std::cout << currentY << " " << currentX << " " << currentY+i << " " << currentX+j << std::endl;
+            if(isMoveValid(moveData, board)) {
+                result.push_back(moveData);
+            }
+
+        }
+    }
+    if(!hasMoved) {
+        MoveData moveData = MoveData(currentX, currentY, currentX, currentY+2);
+        if(isMoveValid(moveData, board)) {
+            result.push_back(moveData);
+        }
+        moveData = MoveData(currentX, currentY, currentX, currentY-2);
+        if(isMoveValid(moveData, board)) {
+            result.push_back(moveData);
+        }
+    }
+
+
+    return result;
+
 }
