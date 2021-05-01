@@ -1,7 +1,7 @@
 #include "View.h"
 
-View::View(sf::RenderWindow* window) {
-    this->window = window;
+View::View(sf::RenderWindow& window) : mainWindow(window) {
+    
 }
 std::vector<sf::Sprite>& View::getEntities(){
     return itemsToDraw;
@@ -9,7 +9,7 @@ std::vector<sf::Sprite>& View::getEntities(){
 
 void View::draw() {
     for(int i = 0; i < itemsToDraw.size(); ++i) {
-        window->draw(itemsToDraw[i]);
+        mainWindow.draw(itemsToDraw[i]);
     }
 }
 

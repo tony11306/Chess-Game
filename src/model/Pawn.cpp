@@ -49,6 +49,22 @@ bool Pawn::isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLoc
     int toX = moveData.getToX();
     int toY = moveData.getToY();
 
+    if(toX < 0 || toY < 0) {
+        return false;
+    }
+
+    if(toX >= BOARD_SIZE || toY >= BOARD_SIZE) {
+        return false;
+    }
+
+    if(fromX < 0 || fromY < 0) {
+        return false;
+    }
+
+    if(fromX >= BOARD_SIZE || fromY >= BOARD_SIZE) {
+        return false;
+    }
+
     if(isTargetFriendly(toX, toY, board)) {
         return false;
     }

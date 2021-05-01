@@ -9,7 +9,7 @@ class GameSceneController: public SceneController {
 
     private:
 
-        sf::RenderWindow* window;
+        sf::RenderWindow& mainWindow;
         Game* game;
         GameView* view;
         GameState gameState;
@@ -26,10 +26,13 @@ class GameSceneController: public SceneController {
         
     public:
 
-        GameSceneController(sf::RenderWindow*);
+        GameSceneController(sf::RenderWindow&);
         ~GameSceneController();
         State run() override;
         void init();
+        void onClosedWindow();
+        void onMouseButtonPressed(sf::Event event);
+        void onMouseButtonReleased(sf::Event event);
 
 };
 

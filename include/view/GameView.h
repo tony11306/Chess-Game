@@ -25,14 +25,18 @@ class GameView : public View {
         sf::Texture WHITE_ROOK_TEXTURE;
         sf::Texture WHITE_PAWN_TEXTURE;
 
+        sf::Font font;
+        sf::Text playerTurnText;
+
         sf::Texture BOARD;
         
 
     public:
 
-        GameView(sf::RenderWindow*, Game*);
+        GameView(sf::RenderWindow&, Game*);
         ~GameView();
         void update() override;
+        void draw();
 };
 
 #endif

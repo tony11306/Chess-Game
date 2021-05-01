@@ -1,6 +1,7 @@
 #include "GameView.h"
+#include <iostream>
 
-GameView::GameView(sf::RenderWindow* window, Game* game) : View(window) {
+GameView::GameView(sf::RenderWindow& window, Game* game) : View(window) {
     this->game = game;
 
     BLACK_KING_TEXTURE.loadFromFile("imgs/KingBlack.png");
@@ -16,8 +17,17 @@ GameView::GameView(sf::RenderWindow* window, Game* game) : View(window) {
     WHITE_KNIGHT_TEXTURE.loadFromFile("imgs/KnightWhite.png");
     WHITE_ROOK_TEXTURE.loadFromFile("imgs/RookWhite.png");
     WHITE_PAWN_TEXTURE.loadFromFile("imgs/PawnWhite.png");
-
     BOARD.loadFromFile("imgs/board.png");
+    
+    if (!font.loadFromFile("arial.ttf")) {
+        throw "Unable to find the arial.ttf file";
+    }
+    playerTurnText.setFont(font);
+    playerTurnText.setString("Current turn: White");
+    playerTurnText.setPosition(850.f, 300.f);
+    playerTurnText.setCharacterSize(20);
+    playerTurnText.setFillColor(sf::Color::White);
+    
 }
 
 GameView::~GameView() {
@@ -72,5 +82,16 @@ void GameView::update() {
             }
         }
     }
+    
+    if(game->checkIsWhiteTurn()) {
+        playerTurnText.setString("Current turn: White");
+    } else {
+        playerTurnText.setString("Current turn: Black");
+    }
+}
+
+void GameView::draw() {
+    mainWindow.draw(playerTurnText);
+    View::draw();
 }
 

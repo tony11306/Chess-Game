@@ -252,3 +252,35 @@ Square* Board::getSquareAt(int row, int col) {
 
     return &(squares[row][col]);
 }
+
+std::pair<int, int> Board::getWhiteKingPosition() {
+    return whiteKingPosition;
+}
+
+std::pair<int, int> Board::getBlackKingPosition() {
+    return blackKingPosition;
+}
+
+void Board::setBlackKingPosition(int row, int col) {
+    if(row < 0 || row >= BOARD_SIZE) {
+        return;
+    }
+
+    if(col < 0 || col >= BOARD_SIZE) {
+        return;
+    }
+
+    blackKingPosition = std::make_pair(row, col);
+}
+
+void Board::setWhiteKingPosition(int row, int col) {
+    if(row < 0 || row >= BOARD_SIZE) {
+        return;
+    }
+
+    if(col < 0 || col >= BOARD_SIZE) {
+        return;
+    }
+
+    whiteKingPosition = std::make_pair(row, col);
+}

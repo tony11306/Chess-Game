@@ -50,7 +50,11 @@ bool King::isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLoc
         return false;
     }
 
-    
+    if(!checkmateDetectLock && isMoveGoingToCheckmate(moveData, board)) {
+        return false;
+    }
+
+    /*
     Piece* tmpPiece = board.getPieceAtSquare(toX, toY);
     board.getSquareAt(fromX, fromY)->setPiece(nullptr);
     board.getSquareAt(toX, toY)->setPiece(this);
@@ -75,7 +79,9 @@ bool King::isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLoc
 
     board.getSquareAt(fromX, fromY)->setPiece(this);
     board.getSquareAt(toX, toY)->setPiece(tmpPiece);
-    
+    */
+   
+
     return true;
 
 
@@ -131,7 +137,7 @@ bool King::isCastlingMoveValid(MoveData& moveData, Board& board) {
     }
 
 
-    for(int i = fromY; i != toY; i += (toY > fromY ? 1 : -1)) {
+    for(int i = fromY; i != toY + (toY > fromY ? 1 : -1); i += (toY > fromY ? 1 : -1)) {
         if(i == fromY) {
             continue;
         }

@@ -29,6 +29,10 @@ class Board {
         Square* getSquareAt(int row, int col);
         bool isBlackCheckmate();
         bool isWhiteCheckmate();
+        std::pair<int, int> getWhiteKingPosition();
+        std::pair<int, int> getBlackKingPosition();
+        void setWhiteKingPosition(int row, int col);
+        void setBlackKingPosition(int row, int col);
 
 };
 #endif

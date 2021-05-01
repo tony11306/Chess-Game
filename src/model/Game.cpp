@@ -7,6 +7,7 @@
 Game::Game() {
     board = new Board();
     board->initBoard();
+    isGameOver = false;
     isWhiteTurn = true;
 }
 
@@ -44,5 +45,9 @@ void Game::moveExecute(MoveData& moveData) {
 
 void Game::switchTurn() {
     isWhiteTurn = !isWhiteTurn;
+}
+
+bool Game::checkIsWhiteTurn() {
+    return isWhiteTurn;
 }
 

@@ -10,12 +10,14 @@ class Game{
         Board* board;
         bool isWhiteTurn;
         void switchTurn();
+        bool isGameOver;
 
     public:
         Game();
         ~Game();
         Board* getBoard();
         void moveExecute(MoveData&);
+        bool checkIsWhiteTurn();
 
 };
 #endif

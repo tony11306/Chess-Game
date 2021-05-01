@@ -42,12 +42,19 @@ bool Piece::isMoveGoingToCheckmate(MoveData& moveData, Board& board) {
     int fromY = moveData.getFromY();
     int toX = moveData.getToX();
     int toY = moveData.getToY();
-
     Piece* tmpPiece = board.getPieceAtSquare(toX, toY);
+
+    if(board.getPieceAtSquare(fromX, fromY)->getPieceID() == WHITE_KING) {
+        board.setWhiteKingPosition(toX, toY);
+    } else if(board.getPieceAtSquare(fromX, fromY)->getPieceID() == BLACK_KING) {
+        board.setBlackKingPosition(toX, toY);
+    }
+    
 
     board.getSquareAt(fromX, fromY)->setPiece(nullptr);
     
     board.getSquareAt(toX, toY)->setPiece(this);
+    
 
     bool isCheckmate = false;
     if(pieceId > 0) { // the moving piece is white
@@ -58,6 +65,12 @@ bool Piece::isMoveGoingToCheckmate(MoveData& moveData, Board& board) {
         if(board.isBlackCheckmate()) {
             isCheckmate = true;
         }
+    }
+    
+    if(board.getPieceAtSquare(toX, toY)->getPieceID() == WHITE_KING) {
+        board.setWhiteKingPosition(fromX, fromY);
+    } else if(board.getPieceAtSquare(toX, toY)->getPieceID() == BLACK_KING) {
+        board.setBlackKingPosition(fromX, fromY);
     }
 
     board.getSquareAt(fromX, fromY)->setPiece(this);

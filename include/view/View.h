@@ -8,11 +8,11 @@
 
 class View {
     protected: 
-        sf::RenderWindow* window;
+        sf::RenderWindow& mainWindow;
         std::vector<sf::Sprite> itemsToDraw;
         
     public:
-        View(sf::RenderWindow*);
+        View(sf::RenderWindow&);
         virtual ~View();
         virtual void draw();
         virtual void update() = 0;
