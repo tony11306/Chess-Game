@@ -27,6 +27,9 @@ GameView::GameView(sf::RenderWindow& window, Game* game) : View(window) {
     playerTurnText.setPosition(850.f, 300.f);
     playerTurnText.setCharacterSize(20);
     playerTurnText.setFillColor(sf::Color::White);
+
+    moveHint = sf::CircleShape(30);
+    moveHint.setFillColor(sf::Color(100, 250, 50, 50));
     
 }
 
@@ -90,8 +93,16 @@ void GameView::update() {
     }
 }
 
+void GameView::setPossibleMoves(std::vector<MoveData>& possibleMoves) {
+    this->possibleMoves = possibleMoves;
+}
+
 void GameView::draw() {
     mainWindow.draw(playerTurnText);
     View::draw();
+    for(int i = 0; i < possibleMoves.size(); ++i) {
+        moveHint.setPosition(45.f + (possibleMoves[i].getToY()*PIECE_VERTICAL_GAP), 30.0f + (possibleMoves[i].getToX()*PIECE_HORIZONTAL_GAP));
+        mainWindow.draw(moveHint);
+    }
 }
 

@@ -20,6 +20,7 @@ class GameSceneController: public SceneController {
         int dragFromY;
         int dragToX;
         int dragToY;
+        std::vector<MoveData> draggingPiecePossibleMoves;
 
 
         void handleEvents();

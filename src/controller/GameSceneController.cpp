@@ -12,6 +12,7 @@ GameSceneController::GameSceneController(sf::RenderWindow& window): mainWindow(w
     dragFromY = 0;
     dragToX = 0;
     dragToY = 0;
+    draggingPiecePossibleMoves = {};
 
 }
 
@@ -58,13 +59,13 @@ void GameSceneController::onMouseButtonPressed(sf::Event event) {
                     draggingPieceIndex = i;
                     Board* board = game->getBoard();
                     
-                    std::vector<MoveData> possibleMoves = board->getPieceAtSquare(dragFromY, dragFromX)->getPossibleMoves(dragFromY, dragFromX, *board);
+                    draggingPiecePossibleMoves = board->getPieceAtSquare(dragFromY, dragFromX)->getPossibleMoves(dragFromY, dragFromX, *board);
                     
                     std::cout << "-------" << std::endl;
                     std::cout << "Possible move:" << std::endl;
                     
-                    for(int i = 0; i < possibleMoves.size(); ++i) {
-                        std::cout << possibleMoves[i].getFromY() << " " << possibleMoves[i].getFromX() << " " << possibleMoves[i].getToY() << " " << possibleMoves[i].getToX() << std::endl;
+                    for(int i = 0; i < draggingPiecePossibleMoves.size(); ++i) {
+                        std::cout << draggingPiecePossibleMoves[i].getFromY() << " " << draggingPiecePossibleMoves[i].getFromX() << " " << draggingPiecePossibleMoves[i].getToY() << " " << draggingPiecePossibleMoves[i].getToX() << std::endl;
                     }
                     std::cout << "-------" << std::endl;
                     
@@ -89,6 +90,8 @@ void GameSceneController::onMouseButtonReleased(sf::Event event) {
         MoveData moveData(dragFromY, dragFromX, dragToY, dragToX);
         game->moveExecute(moveData);
         isDragging = false;
+        draggingPiecePossibleMoves = {};
+        view->setPossibleMoves(draggingPiecePossibleMoves);
         view->update();
 
     }
@@ -118,6 +121,7 @@ void GameSceneController::handleEvents() {
 
     if(isDragging) {
         view->getEntities()[draggingPieceIndex].setPosition(sf::Vector2f(mouseX-deltaX, mouseY-deltaY));
+        view->setPossibleMoves(draggingPiecePossibleMoves);
     }
 
 }
@@ -135,7 +139,8 @@ State GameSceneController::run() {
         mainWindow.clear();
 
         view->draw();
-        
+
+
         mainWindow.display();
 
     } 

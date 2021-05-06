@@ -28,8 +28,10 @@ class GameView : public View {
         sf::Font font;
         sf::Text playerTurnText;
 
+        sf::CircleShape moveHint;
+
         sf::Texture BOARD;
-        
+        std::vector<MoveData> possibleMoves;
 
     public:
 
@@ -37,6 +39,7 @@ class GameView : public View {
         ~GameView();
         void update() override;
         void draw();
+        void setPossibleMoves(std::vector<MoveData>& possibleMoves);
 };
 
 #endif
