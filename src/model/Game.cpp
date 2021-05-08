@@ -7,7 +7,6 @@
 Game::Game() {
     board = new Board();
     board->initBoard();
-    isGameOver = false;
     isWhiteTurn = true;
 }
 
@@ -39,7 +38,6 @@ void Game::moveExecute(MoveData& moveData) {
     if(previousPiece != board->getPieceAtSquare(moveData.getFromX(), moveData.getFromY())) {
         switchTurn();
     }
-
     
 }
 
@@ -49,5 +47,24 @@ void Game::switchTurn() {
 
 bool Game::checkIsWhiteTurn() {
     return isWhiteTurn;
+}
+
+
+bool Game::isWhiteWin() {
+    if(!isWhiteTurn && board->isBlackCheckmate()) {
+        if(board->getBlackPossibleMoves().size() == 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Game::isBlackWin() {
+    if(isWhiteTurn && board->isWhiteCheckmate()) {
+        if(board->getWhitePossibleMoves().size() == 0) {
+            return true;
+        }
+    }
+    return false;
 }
 

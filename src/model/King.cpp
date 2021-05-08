@@ -54,34 +54,6 @@ bool King::isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLoc
         return false;
     }
 
-    /*
-    Piece* tmpPiece = board.getPieceAtSquare(toX, toY);
-    board.getSquareAt(fromX, fromY)->setPiece(nullptr);
-    board.getSquareAt(toX, toY)->setPiece(this);
-    for(int i = 0; i < BOARD_SIZE; ++i) { // check if the move can cause checkmate
-        for(int j = 0; j < BOARD_SIZE; ++j) {
-            if(board.getPieceAtSquare(i, j) == nullptr) {
-                continue;
-            }
-
-            if(board.getPieceAtSquare(i, j)->getColor() == color) {
-                continue;
-            }
-            
-            MoveData md = MoveData(i, j, toX, toY);
-            if(board.getPieceAtSquare(i, j)->isMoveValid(md, board)) { // 
-                board.getSquareAt(toX, toY)->setPiece(tmpPiece);
-                board.getSquareAt(fromX, fromY)->setPiece(this);
-                return false;
-            }
-        }
-    }
-
-    board.getSquareAt(fromX, fromY)->setPiece(this);
-    board.getSquareAt(toX, toY)->setPiece(tmpPiece);
-    */
-   
-
     return true;
 
 
@@ -137,25 +109,19 @@ bool King::isCastlingMoveValid(MoveData& moveData, Board& board) {
     }
 
 
-    for(int i = fromY; i != toY + (toY > fromY ? 1 : -1); i += (toY > fromY ? 1 : -1)) {
+    for(int i = fromY; i != (toY > fromY ? BOARD_SIZE-1 : 0); i += (toY > fromY ? 1 : -1)) {
+        
         if(i == fromY) {
             continue;
         }
+        
         if(board.getPieceAtSquare(fromX, i) != nullptr) {
+            std::cout << board.getPieceAtSquare(fromX, i)->getPieceID() << std::endl;
             return false;
         }
-        for(int j = 0; j < BOARD_SIZE; ++j) {
-            for(int k = 0; k < BOARD_SIZE; ++k) {
-                if(board.getPieceAtSquare(j, k) == nullptr) {
-                    continue;
-                }
-                if(color != board.getPieceAtSquare(j, k)->getColor()) {
-                    MoveData md = MoveData(j, k, fromX, i);
-                    if(board.getPieceAtSquare(j, k)->isMoveValid(md, board)) {
-                        return false;
-                    }
-                }
-            }
+
+        if(isMoveGoingToCheckmate(moveData, board)) {
+            return false;
         }
     }
 

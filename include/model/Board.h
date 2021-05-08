@@ -4,6 +4,7 @@
 
 #include "Square.h"
 #include "MoveData.h"
+#include <vector>
 
 class Piece;
 
@@ -33,6 +34,8 @@ class Board {
         std::pair<int, int> getBlackKingPosition();
         void setWhiteKingPosition(int row, int col);
         void setBlackKingPosition(int row, int col);
+        std::vector<MoveData> getWhitePossibleMoves();
+        std::vector<MoveData> getBlackPossibleMoves();
 
 };
 #endif

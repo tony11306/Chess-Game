@@ -8,6 +8,7 @@ GameSceneController::GameSceneController(sf::RenderWindow& window): mainWindow(w
     gameState = UNINITIALIZED;
     isDragging = false;
     draggingPieceIndex = 1;
+    draggingPiece = nullptr;
     dragFromX = 0;
     dragFromY = 0;
     dragToX = 0;
@@ -17,21 +18,20 @@ GameSceneController::GameSceneController(sf::RenderWindow& window): mainWindow(w
 }
 
 GameSceneController::~GameSceneController() {
-
-    delete game;
     delete view;
-
 }
 
 void GameSceneController::init() {
 
-    delete game;
-    delete view;
+    GameView* oldGameView = view;
 
     game = new Game();
     view = new GameView(mainWindow, game);
-    view->update();
 
+    view->update();
+    
+    delete oldGameView;
+    
     gameState = READY_TO_START;
 
 }
@@ -50,34 +50,33 @@ void GameSceneController::onMouseButtonPressed(sf::Event event) {
 
             dragFromX = (mouseX-30)/PIECE_HORIZONTAL_GAP; // the variable name needs to be refactor
             dragFromY = (mouseY-15)/PIECE_VERTICAL_GAP;
+            for(sf::Sprite& pieceSprite : view->getPieceSprites()) {
+                if(pieceSprite.getGlobalBounds().contains(mouseX, mouseY)) {
 
-            for(int i = 1; i < view->getEntities().size(); ++i) {
-
-                if(view->getEntities()[i].getGlobalBounds().contains(mouseX, mouseY)) {
-                    
                     isDragging = true;
-                    draggingPieceIndex = i;
+                    draggingPiece = &pieceSprite;
                     Board* board = game->getBoard();
-                    
+
                     draggingPiecePossibleMoves = board->getPieceAtSquare(dragFromY, dragFromX)->getPossibleMoves(dragFromY, dragFromX, *board);
-                    
+
                     std::cout << "-------" << std::endl;
                     std::cout << "Possible move:" << std::endl;
-                    
-                    for(int i = 0; i < draggingPiecePossibleMoves.size(); ++i) {
-                        std::cout << draggingPiecePossibleMoves[i].getFromY() << " " << draggingPiecePossibleMoves[i].getFromX() << " " << draggingPiecePossibleMoves[i].getToY() << " " << draggingPiecePossibleMoves[i].getToX() << std::endl;
+
+                    for(MoveData& moveData : draggingPiecePossibleMoves) {
+                        std::cout << moveData.getFromY() << " " << moveData.getFromX() << " " << moveData.getToY() << " " << moveData.getToX() << std::endl;
                     }
-                    std::cout << "-------" << std::endl;
                     
+                    std::cout << "-------" << std::endl;
                     break;
                 }
-
             }
+
         }
     }
 }
 
 void GameSceneController::onMouseButtonReleased(sf::Event event) {
+
     int mouseX = sf::Mouse::getPosition(mainWindow).x;
     int mouseY = sf::Mouse::getPosition(mainWindow).y;
     
@@ -92,6 +91,14 @@ void GameSceneController::onMouseButtonReleased(sf::Event event) {
         isDragging = false;
         draggingPiecePossibleMoves = {};
         view->setPossibleMoves(draggingPiecePossibleMoves);
+
+        if(game->isBlackWin()) {
+            gameState = GAME_OVER;
+            view->setBlackWinTextVisible(true);
+        } else if(game->isWhiteWin()) {
+            gameState = GAME_OVER;
+            view->setWhiteWinTextVisible(true);
+        }
         view->update();
 
     }
@@ -112,15 +119,20 @@ void GameSceneController::handleEvents() {
         if(event.type == sf::Event::Closed) {
             onClosedWindow();
             return;
-        } else if(event.type == sf::Event::MouseButtonPressed) {
+        } else if(event.type == sf::Event::MouseButtonPressed && gameState != GAME_OVER) {
             onMouseButtonPressed(event);
         } else if(event.type == sf::Event::MouseButtonReleased) {
             onMouseButtonReleased(event);
         }
     }
 
+    if(view->getResetButton()->isPressed()) {
+        init();
+    }
+
     if(isDragging) {
-        view->getEntities()[draggingPieceIndex].setPosition(sf::Vector2f(mouseX-deltaX, mouseY-deltaY));
+        draggingPiece->setPosition(sf::Vector2f(mouseX-deltaX, mouseY-deltaY));
+        // view->getPieceSprites()[draggingPieceIndex].setPosition(sf::Vector2f(mouseX-deltaX, mouseY-deltaY));
         view->setPossibleMoves(draggingPiecePossibleMoves);
     }
 
@@ -136,7 +148,9 @@ State GameSceneController::run() {
 
         handleEvents();
 
-        mainWindow.clear();
+        mainWindow.clear(sf::Color(49, 46, 43, 1));
+
+        view->getResetButton()->update(sf::Mouse::getPosition(mainWindow));
 
         view->draw();
 

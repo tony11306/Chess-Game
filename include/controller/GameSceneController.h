@@ -16,6 +16,7 @@ class GameSceneController: public SceneController {
 
         bool isDragging;
         int draggingPieceIndex;
+        sf::Sprite* draggingPiece;
         int dragFromX;
         int dragFromY;
         int dragToX;

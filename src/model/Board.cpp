@@ -284,3 +284,43 @@ void Board::setWhiteKingPosition(int row, int col) {
 
     whiteKingPosition = std::make_pair(row, col);
 }
+
+std::vector<MoveData> Board::getWhitePossibleMoves() {
+
+    std::vector<MoveData> result;
+    for(int i = 0; i < BOARD_SIZE; ++i) {
+        for(int j = 0; j < BOARD_SIZE; ++j) {
+            if(getPieceAtSquare(i, j) == nullptr) {
+                continue;
+            }
+            if(getPieceAtSquare(i, j)->getColor() == 'w') {
+                for(MoveData& md : getPieceAtSquare(i, j)->getPossibleMoves(i, j, *this)) {
+                    result.push_back(md);
+                }
+            }
+
+        }
+    }
+
+    return result;
+
+}
+
+std::vector<MoveData> Board::getBlackPossibleMoves() {
+    std::vector<MoveData> result;
+    for(int i = 0; i < BOARD_SIZE; ++i) {
+        for(int j = 0; j < BOARD_SIZE; ++j) {
+            if(getPieceAtSquare(i, j) == nullptr) {
+                continue;
+            }
+            if(getPieceAtSquare(i, j)->getColor() == 'b') {
+                for(MoveData& md : getPieceAtSquare(i, j)->getPossibleMoves(i, j, *this)) {
+                    result.push_back(md);
+                }
+            }
+
+        }
+    }
+
+    return result;
+}
