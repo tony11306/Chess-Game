@@ -91,7 +91,7 @@ bool Pawn::isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLoc
 
         if(!hasMoved) { // first move
             if(fromY == toY && toX - fromX == -2) {
-                if(board.getPieceAtSquare(toX, toY) == nullptr) {
+                if(board.getPieceAtSquare(toX, toY) == nullptr && board.getPieceAtSquare(toX+1, toY) == nullptr) {
                     if(!checkmateDetectLock && isMoveGoingToCheckmate(moveData, board)) {
                         
                         return false;
@@ -124,7 +124,7 @@ bool Pawn::isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLoc
 
         if(!hasMoved) { // first move
             if(fromY == toY && toX - fromX == 2) {
-                if(board.getPieceAtSquare(toX, toY) == nullptr) {
+                if(board.getPieceAtSquare(toX, toY) == nullptr && board.getPieceAtSquare(toX-1, toY) == nullptr) {
                     if(!checkmateDetectLock && isMoveGoingToCheckmate(moveData, board)) {
                         return false;
                     }

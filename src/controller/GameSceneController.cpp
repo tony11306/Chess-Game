@@ -98,6 +98,9 @@ void GameSceneController::onMouseButtonReleased(sf::Event event) {
         } else if(game->isWhiteWin()) {
             gameState = GAME_OVER;
             view->setWhiteWinTextVisible(true);
+        } else if(game->isStalemate()) {
+            gameState = GAME_OVER;
+            view->setStalemateTextVisible(true);
         }
         view->update();
 

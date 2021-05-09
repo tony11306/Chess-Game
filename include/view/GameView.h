@@ -32,6 +32,7 @@ class GameView {
         sf::Text playerTurnText;
         sf::Text whiteWinText;
         sf::Text blackWinText;
+        sf::Text stalemateText;
 
         sf::CircleShape moveHint;
 
@@ -44,6 +45,7 @@ class GameView {
 
         bool isWhiteWinTextVisible;
         bool isBlackWinTextVisible;
+        bool isStalemateTextVisible;
         
 
     public:
@@ -58,7 +60,7 @@ class GameView {
         Button* getResetButton();
         void setWhiteWinTextVisible(bool isVisible);
         void setBlackWinTextVisible(bool isVisible);
-
+        void setStalemateTextVisible(bool isVisible);
 };
 
 #endif

@@ -44,6 +44,14 @@ GameView::GameView(sf::RenderWindow& window, Game* game)
     blackWinText.setPosition(250.f, 300.f);
     blackWinText.setFillColor(sf::Color::Black);
     isBlackWinTextVisible = false;
+
+    stalemateText.setFont(font);
+    stalemateText.setString("Stalemate!");
+    stalemateText.setCharacterSize(80);
+    stalemateText.setPosition(250.f, 300.f);
+    stalemateText.setFillColor(sf::Color::Black);
+    isStalemateTextVisible = false;
+
     
     resetButton = new Button(850.f, 600.f, 150, 50, font, "Reset",
     sf::Color(70, 70, 70, 200),
@@ -150,6 +158,9 @@ void GameView::draw() {
     if(isWhiteWinTextVisible) {
         mainWindow.draw(whiteWinText);
     }
+    if(isStalemateTextVisible) {
+        mainWindow.draw(stalemateText);
+    }
 }
 
 void GameView::setWhiteWinTextVisible(bool isVisible) {
@@ -160,3 +171,6 @@ void GameView::setBlackWinTextVisible(bool isVisible) {
     isBlackWinTextVisible = isVisible;
 }
 
+void GameView::setStalemateTextVisible(bool isVisible) {
+    isStalemateTextVisible = isVisible;
+}

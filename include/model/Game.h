@@ -19,6 +19,7 @@ class Game{
         bool checkIsWhiteTurn();
         bool isWhiteWin();
         bool isBlackWin();
+        bool isStalemate();
 
 };
 #endif

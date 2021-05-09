@@ -68,3 +68,19 @@ bool Game::isBlackWin() {
     return false;
 }
 
+bool Game::isStalemate() {
+
+    if(isWhiteTurn && board->getWhitePossibleMoves().size() == 0) {
+        if(!board->isWhiteCheckmate()) {
+            return true;
+        }
+    }
+
+    if(!isWhiteTurn && board->getBlackPossibleMoves().size() == 0) {
+        if(!board->isBlackCheckmate()) {
+            return true;
+        }
+    }
+
+    return false;
+}
