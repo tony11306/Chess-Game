@@ -1,4 +1,10 @@
 #include "GameSceneController.h"
+#include "Rook.h"
+#include "Bishop.h"
+#include "Queen.h"
+#include "Pawn.h"
+#include "King.h"
+#include "Knight.h"
 #include <iostream>
 
 GameSceneController::GameSceneController(sf::RenderWindow& window): mainWindow(window) {
@@ -87,7 +93,57 @@ void GameSceneController::onMouseButtonReleased(sf::Event event) {
         std::cout << dragFromX << " " << dragFromY << " " << dragToX << " " << dragToY << "\n";
 
         MoveData moveData(dragFromY, dragFromX, dragToY, dragToX);
+        Piece* before = game->getBoard()->getPieceAtSquare(dragFromY, dragFromX);
         game->moveExecute(moveData);
+        Piece* after = game->getBoard()->getPieceAtSquare(dragToY, dragToX);
+        
+        if(after == before && before != nullptr) {
+            ID promotePiece = EMPTY;
+            if(before->getPieceID() == WHITE_PAWN && dragToY == 0) {
+                promotePiece = onPromotion();
+            } else if(before->getPieceID() == BLACK_PAWN && dragToY == 7) {
+                promotePiece = onPromotion();
+            }
+
+            if(promotePiece != EMPTY) {
+                switch(promotePiece) {
+                    case WHITE_QUEEN:
+                        game->getBoard()->getSquareAt(dragToY, dragToX)->deletePiece();
+                        game->getBoard()->getSquareAt(dragToY, dragToX)->setPiece(new Queen('w'));
+                        break;
+                    case BLACK_QUEEN:
+                        game->getBoard()->getSquareAt(dragToY, dragToX)->deletePiece();
+                        game->getBoard()->getSquareAt(dragToY, dragToX)->setPiece(new Queen('b'));
+                        break;
+                    case WHITE_KNIGHT:
+                        game->getBoard()->getSquareAt(dragToY, dragToX)->deletePiece();
+                        game->getBoard()->getSquareAt(dragToY, dragToX)->setPiece(new Knight('w'));
+                        break;
+                    case BLACK_KNIGHT:
+                        game->getBoard()->getSquareAt(dragToY, dragToX)->deletePiece();
+                        game->getBoard()->getSquareAt(dragToY, dragToX)->setPiece(new Knight('b'));
+                        break;
+                    case WHITE_BISHOP:
+                        game->getBoard()->getSquareAt(dragToY, dragToX)->deletePiece();
+                        game->getBoard()->getSquareAt(dragToY, dragToX)->setPiece(new Bishop('w'));
+                        break;
+                    case BLACK_BISHOP:
+                        game->getBoard()->getSquareAt(dragToY, dragToX)->deletePiece();
+                        game->getBoard()->getSquareAt(dragToY, dragToX)->setPiece(new Bishop('b'));
+                        break;
+                    case WHITE_ROOK:
+                        game->getBoard()->getSquareAt(dragToY, dragToX)->deletePiece();
+                        game->getBoard()->getSquareAt(dragToY, dragToX)->setPiece(new Rook('w'));
+                        break;
+                    case BLACK_ROOK:
+                        game->getBoard()->getSquareAt(dragToY, dragToX)->deletePiece();
+                        game->getBoard()->getSquareAt(dragToY, dragToX)->setPiece(new Rook('b'));
+                        break;
+                }
+            }
+
+        }
+
         isDragging = false;
         draggingPiecePossibleMoves = {};
         view->setPossibleMoves(draggingPiecePossibleMoves);
@@ -104,6 +160,55 @@ void GameSceneController::onMouseButtonReleased(sf::Event event) {
         }
         view->update();
 
+    }
+}
+
+ID GameSceneController::onPromotion() {
+    PromotionView pv(mainWindow, !game->checkIsWhiteTurn());
+    view->update();
+    while(true) {
+
+        sf::Event event;
+        while (mainWindow.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed) {
+                mainWindow.close();
+            } else if(event.type == sf::Event::MouseButtonPressed) {
+                if(pv.isMouseOnBiship(sf::Mouse::getPosition(mainWindow))) {
+                    if(game->checkIsWhiteTurn()) {
+                        return BLACK_BISHOP;
+                    }
+                    return WHITE_BISHOP; 
+                }
+
+                if(pv.isMouseOnKnight(sf::Mouse::getPosition(mainWindow))) {
+                    if(game->checkIsWhiteTurn()) {
+                        return BLACK_KNIGHT;
+                    }
+                    return WHITE_KNIGHT;
+                }
+
+                if(pv.isMouseOnQueen(sf::Mouse::getPosition(mainWindow))) {
+                    if(game->checkIsWhiteTurn()) {
+                        return BLACK_QUEEN;
+                    }
+                    return WHITE_QUEEN;
+                }
+
+                if(pv.isMouseOnRook(sf::Mouse::getPosition(mainWindow))) {
+                    if(game->checkIsWhiteTurn()) {
+                        return BLACK_ROOK;
+                    }
+                    return WHITE_ROOK;
+                }
+            }
+        }
+
+        pv.update();
+        mainWindow.clear();
+        view->draw();
+        pv.draw();
+        mainWindow.display();
     }
 }
 

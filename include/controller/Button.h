@@ -12,7 +12,6 @@ class Button {
     private:
 
         ButtonState buttonState;
-
         bool isHover;
 
         sf::RectangleShape shape;
