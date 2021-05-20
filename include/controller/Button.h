@@ -22,6 +22,7 @@ class Button {
         sf::Color hoverColor;
         sf::Color activeColor;
 
+
     public:
 
         Button(float x, float y, float width, float height, sf::Font& font, std::string text, sf::Color idleColor, sf::Color hoverColor, sf::Color activeColor);
@@ -29,5 +30,6 @@ class Button {
         void update(sf::Vector2i mousePosition);
         void draw(sf::RenderTarget& window);
         bool isPressed();
+        bool isTriggered(sf::Vector2i mousePosition, sf::Event event);
 
 };

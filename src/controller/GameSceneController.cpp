@@ -14,6 +14,7 @@ GameSceneController::GameSceneController(sf::RenderWindow& window): mainWindow(w
     gameState = UNINITIALIZED;
     isDragging = false;
     draggingPieceIndex = 1;
+    isMouseHolding = false;
     draggingPiece = nullptr;
     dragFromX = 0;
     dragFromY = 0;
@@ -49,6 +50,7 @@ void GameSceneController::onClosedWindow() {
 void GameSceneController::onMouseButtonPressed(sf::Event event) {
     int mouseX = sf::Mouse::getPosition(mainWindow).x;
     int mouseY = sf::Mouse::getPosition(mainWindow).y;
+    isMouseHolding = true;
 
     if(event.mouseButton.button == sf::Mouse::Left) {
 
@@ -86,6 +88,8 @@ void GameSceneController::onMouseButtonReleased(sf::Event event) {
     int mouseX = sf::Mouse::getPosition(mainWindow).x;
     int mouseY = sf::Mouse::getPosition(mainWindow).y;
     
+    isMouseHolding = false;
+
     if(isDragging) {
 
         dragToX = (mouseX-30)/PIECE_HORIZONTAL_GAP;
@@ -160,6 +164,20 @@ void GameSceneController::onMouseButtonReleased(sf::Event event) {
         }
         view->update();
 
+    } else if(view->getResetButton()->isTriggered(sf::Mouse::getPosition(), event)) {
+        init();
+    }
+}
+
+void GameSceneController::onMouseButtonHolding(sf::Event event) {
+    int mouseX = sf::Mouse::getPosition(mainWindow).x;
+    int mouseY = sf::Mouse::getPosition(mainWindow).y;
+    int deltaX = 45;
+    int deltaY = 45;
+
+    if(isDragging) {
+        draggingPiece->setPosition(sf::Vector2f(mouseX-deltaX, mouseY-deltaY));
+        view->setPossibleMoves(draggingPiecePossibleMoves);
     }
 }
 
@@ -205,11 +223,11 @@ ID GameSceneController::onPromotion() {
         }
 
         pv.update();
-        mainWindow.clear();
+        mainWindow.clear(sf::Color(49, 46, 43, 1));
         view->draw();
         pv.draw();
         mainWindow.display();
-    }
+    } 
 }
 
 
@@ -232,16 +250,9 @@ void GameSceneController::handleEvents() {
         } else if(event.type == sf::Event::MouseButtonReleased) {
             onMouseButtonReleased(event);
         }
-    }
-
-    if(view->getResetButton()->isPressed()) {
-        init();
-    }
-
-    if(isDragging) {
-        draggingPiece->setPosition(sf::Vector2f(mouseX-deltaX, mouseY-deltaY));
-        // view->getPieceSprites()[draggingPieceIndex].setPosition(sf::Vector2f(mouseX-deltaX, mouseY-deltaY));
-        view->setPossibleMoves(draggingPiecePossibleMoves);
+        if(isMouseHolding) {
+            onMouseButtonHolding(event);
+        }
     }
 
 }

@@ -61,6 +61,16 @@ bool Button::isPressed() {
     return buttonState == BUTTON_PRESSED;
 }
 
+bool Button::isTriggered(sf::Vector2i mousePosition, sf::Event event) {
+    
+    if(event.type == sf::Event::MouseButtonReleased && buttonState == BUTTON_PRESSED) {
+        buttonState = BUTTON_IDLE;
+        return true;
+    }
+
+    return false;
+}
+
 void Button::draw(sf::RenderTarget& window) {
     window.draw(shape);
     window.draw(text);

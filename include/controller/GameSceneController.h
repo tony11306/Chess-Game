@@ -16,6 +16,7 @@ class GameSceneController: public SceneController {
         GameState gameState;
 
         bool isDragging;
+        bool isMouseHolding;
         int draggingPieceIndex;
         sf::Sprite* draggingPiece;
         int dragFromX;
@@ -36,6 +37,7 @@ class GameSceneController: public SceneController {
         void onClosedWindow();
         void onMouseButtonPressed(sf::Event event);
         void onMouseButtonReleased(sf::Event event);
+        void onMouseButtonHolding(sf::Event event);
         ID onPromotion();
 
 };

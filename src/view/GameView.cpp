@@ -59,8 +59,8 @@ GameView::GameView(sf::RenderWindow& window, Game* game)
     sf::Color(20, 20, 20, 200)
     );
 
-    moveHint = sf::CircleShape(30);
-    moveHint.setFillColor(sf::Color(100, 250, 50, 50));
+    moveHint = sf::CircleShape(15);
+    moveHint.setFillColor(sf::Color(123, 122, 106, 240));
     
 }
 
@@ -147,7 +147,7 @@ void GameView::draw() {
     }
 
     for(int i = 0; i < possibleMoves.size(); ++i) {
-        moveHint.setPosition(45.f + (possibleMoves[i].getToY()*PIECE_VERTICAL_GAP), 30.0f + (possibleMoves[i].getToX()*PIECE_HORIZONTAL_GAP));
+        moveHint.setPosition(59.f + (possibleMoves[i].getToY()*PIECE_VERTICAL_GAP), 42.f + (possibleMoves[i].getToX()*PIECE_HORIZONTAL_GAP));
         mainWindow.draw(moveHint);
     }
     resetButton->draw(mainWindow);
