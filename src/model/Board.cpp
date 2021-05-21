@@ -15,9 +15,7 @@ Board::Board() {
         for(int j  = 0; j < BOARD_SIZE; ++j) {
             squares[i][j].setRow(i);
             squares[i][j].setCol(j);
-            // std::cout << squares[i][j].getRow() << "/" << squares[i][j].getCol() << " ";
         }
-        // std::cout << "\n";
     }
 }
 
@@ -67,24 +65,20 @@ void Board::movePiece(MoveData& moveData) {
     int toY = moveData.getToY();
 
     if(isOutside(moveData)) {
-        std::cout << "Out of board!\n";
         return;
     }
 
     if(squares[fromX][fromY].getPiece() == nullptr) {
-        std::cout << "Can't move the empty piece!\n";
         return;
     }
 
     if(!squares[fromX][fromY].getPiece()->isMoveValid(moveData, *this)) {
-        std::cout << "invalid move!\n";
         return;
     }
 
 
 
     // when the move is valid, do the move and check 
-    std::cout << "valid move!\n";
     squares[fromX][fromY].getPiece()->setMoved(true);
     if(squares[fromX][fromY].getPiece()->getPieceID() == WHITE_KING || squares[fromX][fromY].getPiece()->getPieceID() == BLACK_KING) {
         squares[toX][toY].deletePiece();
@@ -96,7 +90,6 @@ void Board::movePiece(MoveData& moveData) {
                 squares[fromX][5].setPiece(squares[fromX][7].getPiece());
                 squares[fromX][7].setPiece(nullptr);
             } else { // queen side castling
-                std::cout << "test\n";
                 squares[fromX][3].setPiece(squares[fromX][0].getPiece());
                 squares[fromX][0].setPiece(nullptr);
             } 
@@ -212,7 +205,6 @@ bool Board::isBlackCheckmate() {
                 }
                 MoveData moveData = MoveData(i, j, blackKingPosition.first, blackKingPosition.second);
                 if(getPieceAtSquare(i, j)->isMoveValid(moveData, *this, true)) {
-                    std::cout << "black checkmate!\n";
                     return true;
                 }
             }
@@ -230,9 +222,6 @@ bool Board::isWhiteCheckmate() {
                 }
                 MoveData moveData = MoveData(i, j, whiteKingPosition.first, whiteKingPosition.second);
                 if(getPieceAtSquare(i, j)->isMoveValid(moveData, *this, true)) {
-                    // std::cout << i << " " << j << "\n";
-                    // std::cout << "white king position: " << whiteKingPosition.first << " " << whiteKingPosition.second << "\n";
-                    std::cout << "white checkmate!\n";
                     return true;
                 }
             }

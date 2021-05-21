@@ -116,7 +116,6 @@ bool King::isCastlingMoveValid(MoveData& moveData, Board& board) {
         }
         
         if(board.getPieceAtSquare(fromX, i) != nullptr) {
-            std::cout << board.getPieceAtSquare(fromX, i)->getPieceID() << std::endl;
             return false;
         }
 
@@ -139,7 +138,6 @@ std::vector<MoveData> King::getPossibleMoves(int currentX, int currentY, Board& 
                 continue;
             }
             MoveData moveData = MoveData(currentX, currentY, currentX+i, currentY+j);
-            std::cout << currentY << " " << currentX << " " << currentY+i << " " << currentX+j << std::endl;
             if(isMoveValid(moveData, board)) {
                 result.push_back(moveData);
             }

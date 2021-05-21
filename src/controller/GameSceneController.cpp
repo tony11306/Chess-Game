@@ -66,15 +66,6 @@ void GameSceneController::onMouseButtonPressed(sf::Event event) {
                     Board* board = game->getBoard();
 
                     draggingPiecePossibleMoves = board->getPieceAtSquare(dragFromY, dragFromX)->getPossibleMoves(dragFromY, dragFromX, *board);
-
-                    std::cout << "-------" << std::endl;
-                    std::cout << "Possible move:" << std::endl;
-
-                    for(MoveData& moveData : draggingPiecePossibleMoves) {
-                        std::cout << moveData.getFromY() << " " << moveData.getFromX() << " " << moveData.getToY() << " " << moveData.getToX() << std::endl;
-                    }
-                    
-                    std::cout << "-------" << std::endl;
                     break;
                 }
             }
@@ -94,7 +85,6 @@ void GameSceneController::onMouseButtonReleased(sf::Event event) {
 
         dragToX = (mouseX-30)/PIECE_HORIZONTAL_GAP;
         dragToY = (mouseY-15)/PIECE_VERTICAL_GAP;
-        std::cout << dragFromX << " " << dragFromY << " " << dragToX << " " << dragToY << "\n";
 
         MoveData moveData(dragFromY, dragFromX, dragToY, dragToX);
         Piece* before = game->getBoard()->getPieceAtSquare(dragFromY, dragFromX);
@@ -277,7 +267,6 @@ State GameSceneController::run() {
         mainWindow.display();
 
     } 
-    std::cout << "Exiting..." << std::endl;
     return EXIT;
     
 }
