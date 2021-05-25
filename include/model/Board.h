@@ -20,6 +20,7 @@ class Board {
         bool isOutside(MoveData&);
         std::pair<int, int> blackKingPosition;
         std::pair<int, int> whiteKingPosition;
+        
 
     public:
 

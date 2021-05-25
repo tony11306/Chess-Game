@@ -42,13 +42,17 @@ bool King::isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLoc
         return false;
     }
 
+
     if(isCastlingMoveValid(moveData, board)) { // is a castling move
         return true;
     }
+    // board.printBoard();
 
     if(abs(toX-fromX) > 1 || abs(toY-fromY) > 1) { // king must move only move 0 or 1 square vertically and move 0 or 1 square horizontally
         return false;
     }
+
+    
 
     if(!checkmateDetectLock && isMoveGoingToCheckmate(moveData, board)) {
         return false;
@@ -74,13 +78,6 @@ bool King::isCastlingMoveValid(MoveData& moveData, Board& board) {
         return false;
     }
 
-    if(board.isBlackCheckmate() && pieceId == BLACK_KING) { // if it's in check
-        return false;
-    }
-
-    if(board.isWhiteCheckmate() && pieceId == WHITE_KING) { // if it's in check
-        return false;
-    }
 
     if((pieceId == BLACK_KING && fromX != 0) || (pieceId == WHITE_KING && fromX != 7)) {
         return false;
@@ -108,7 +105,6 @@ bool King::isCastlingMoveValid(MoveData& moveData, Board& board) {
         }
     }
 
-
     for(int i = fromY; i != (toY > fromY ? BOARD_SIZE-1 : 0); i += (toY > fromY ? 1 : -1)) {
         
         if(i == fromY) {
@@ -124,6 +120,14 @@ bool King::isCastlingMoveValid(MoveData& moveData, Board& board) {
         }
     }
 
+    if(board.isBlackCheckmate() && pieceId == BLACK_KING) { // if it's in check
+        return false;
+    }
+
+    if(board.isWhiteCheckmate() && pieceId == WHITE_KING) { // if it's in check
+        return false;
+    }
+
     return true;
 
 
@@ -131,7 +135,6 @@ bool King::isCastlingMoveValid(MoveData& moveData, Board& board) {
 
 std::vector<MoveData> King::getPossibleMoves(int currentX, int currentY, Board& board) {
     std::vector<MoveData> result;
-
     for(int i = -1; i < 2; ++i) {
         for(int j = -1; j < 2; ++j) {
             if(i == 0 && j == 0) {

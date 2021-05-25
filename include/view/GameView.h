@@ -35,6 +35,8 @@ class GameView {
         sf::Text stalemateText;
 
         sf::CircleShape moveHint;
+        sf::CircleShape attackHint;
+        sf::RectangleShape checkHint;
 
         sf::Texture BOARD_TEXTURE;
         sf::Sprite boardSprite;

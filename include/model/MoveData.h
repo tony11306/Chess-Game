@@ -1,8 +1,9 @@
-#include "PieceIDEnum.h"
-#include <string>
-
 #ifndef MOVEDATA_H
 #define MOVEDATA_H
+
+#include "PieceIDEnum.h"
+#include <string>
+#include <iostream>
 
 class MoveData {
     private:
@@ -19,7 +20,12 @@ class MoveData {
             this->toY = toY;
         }
         std::string toString() {
-            return "TODO";
+            std::string s = "";
+            s += char('a'+fromY);
+            s += char('0'+abs(8-fromX));
+            s += char('a'+toY);
+            s += char('0'+abs(8-toX));
+            return s;
         }
 
         int getFromX() {

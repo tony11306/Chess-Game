@@ -8,6 +8,8 @@ Game::Game() {
     board = new Board();
     board->initBoard();
     isWhiteTurn = true;
+    _isWhiteInCheck = false;
+    _isBlackInCheck = false;
 }
 
 Game::~Game() {
@@ -38,6 +40,8 @@ void Game::moveExecute(MoveData& moveData) {
     if(previousPiece != board->getPieceAtSquare(moveData.getFromX(), moveData.getFromY())) {
         switchTurn();
     }
+
+    updateCheck();
     
 }
 
@@ -51,7 +55,7 @@ bool Game::checkIsWhiteTurn() {
 
 
 bool Game::isWhiteWin() {
-    if(!isWhiteTurn && board->isBlackCheckmate()) {
+    if(!isWhiteTurn && isBlackInCheck()) {
         if(board->getBlackPossibleMoves().size() == 0) {
             return true;
         }
@@ -60,7 +64,7 @@ bool Game::isWhiteWin() {
 }
 
 bool Game::isBlackWin() {
-    if(isWhiteTurn && board->isWhiteCheckmate()) {
+    if(isWhiteTurn && isWhiteInCheck()) {
         if(board->getWhitePossibleMoves().size() == 0) {
             return true;
         }
@@ -71,16 +75,29 @@ bool Game::isBlackWin() {
 bool Game::isStalemate() {
 
     if(isWhiteTurn && board->getWhitePossibleMoves().size() == 0) {
-        if(!board->isWhiteCheckmate()) {
+        if(!isWhiteInCheck()) {
             return true;
         }
     }
 
     if(!isWhiteTurn && board->getBlackPossibleMoves().size() == 0) {
-        if(!board->isBlackCheckmate()) {
+        if(!isBlackInCheck()) {
             return true;
         }
     }
 
     return false;
+}
+
+void Game::updateCheck() {
+    _isWhiteInCheck = board->isWhiteCheckmate();
+    _isBlackInCheck = board->isBlackCheckmate();
+}
+
+bool Game::isWhiteInCheck() {
+    return _isWhiteInCheck;
+}
+
+bool Game::isBlackInCheck() {
+    return _isBlackInCheck;
 }

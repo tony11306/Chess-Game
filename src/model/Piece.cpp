@@ -54,7 +54,6 @@ bool Piece::isMoveGoingToCheckmate(MoveData& moveData, Board& board) {
     board.getSquareAt(fromX, fromY)->setPiece(nullptr);
     
     board.getSquareAt(toX, toY)->setPiece(this);
-    
 
     bool isCheckmate = false;
     if(pieceId > 0) { // the moving piece is white

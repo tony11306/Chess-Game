@@ -61,6 +61,12 @@ GameView::GameView(sf::RenderWindow& window, Game* game)
 
     moveHint = sf::CircleShape(15);
     moveHint.setFillColor(sf::Color(123, 122, 106, 240));
+
+    attackHint = sf::CircleShape(15);
+    attackHint.setFillColor(sf::Color(247, 77, 77));
+    
+    checkHint = sf::RectangleShape(sf::Vector2f(95, 95));
+    checkHint.setFillColor(sf::Color(255, 25, 25));
     
 }
 
@@ -142,14 +148,32 @@ void GameView::draw() {
     mainWindow.draw(boardSprite);
     mainWindow.draw(playerTurnText);
 
+    if(game->isBlackInCheck()) {
+        std::pair<int, int> kingPosition = game->getBoard()->getBlackKingPosition();
+        checkHint.setPosition(28.2 + (kingPosition.second*PIECE_VERTICAL_GAP), 10.1 + (kingPosition.first*PIECE_HORIZONTAL_GAP));
+        mainWindow.draw(checkHint);    
+    }
+
+    if(game->isWhiteInCheck()) {
+        std::pair<int, int> kingPosition = game->getBoard()->getWhiteKingPosition();
+        checkHint.setPosition(28.2 + (kingPosition.second*PIECE_VERTICAL_GAP), 10.1 + (kingPosition.first*PIECE_HORIZONTAL_GAP));
+        mainWindow.draw(checkHint);
+    }
+
     for(int i = 0; i < pieceSprites.size(); ++i) {
         mainWindow.draw(pieceSprites[i]);
     }
 
     for(int i = 0; i < possibleMoves.size(); ++i) {
-        moveHint.setPosition(59.f + (possibleMoves[i].getToY()*PIECE_VERTICAL_GAP), 42.f + (possibleMoves[i].getToX()*PIECE_HORIZONTAL_GAP));
-        mainWindow.draw(moveHint);
+        if(game->getBoard()->getPieceAtSquare(possibleMoves[i].getToX(), possibleMoves[i].getToY()) != nullptr) {
+            attackHint.setPosition(59.f + (possibleMoves[i].getToY()*PIECE_VERTICAL_GAP), 42.f + (possibleMoves[i].getToX()*PIECE_HORIZONTAL_GAP));
+            mainWindow.draw(attackHint);
+        } else {
+            moveHint.setPosition(59.f + (possibleMoves[i].getToY()*PIECE_VERTICAL_GAP), 42.f + (possibleMoves[i].getToX()*PIECE_HORIZONTAL_GAP));
+            mainWindow.draw(moveHint);
+        }
     }
+    
     resetButton->draw(mainWindow);
 
     if(isBlackWinTextVisible) {
@@ -161,6 +185,9 @@ void GameView::draw() {
     if(isStalemateTextVisible) {
         mainWindow.draw(stalemateText);
     }
+
+
+
 }
 
 void GameView::setWhiteWinTextVisible(bool isVisible) {

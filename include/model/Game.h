@@ -10,6 +10,8 @@ class Game{
         Board* board;
         bool isWhiteTurn;
         void switchTurn();
+        bool _isBlackInCheck;
+        bool _isWhiteInCheck;
 
     public:
         Game();
@@ -20,6 +22,9 @@ class Game{
         bool isWhiteWin();
         bool isBlackWin();
         bool isStalemate();
+        void updateCheck();
+        bool isBlackInCheck();
+        bool isWhiteInCheck();
 
 };
 #endif

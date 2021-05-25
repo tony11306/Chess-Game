@@ -90,7 +90,6 @@ void GameSceneController::onMouseButtonReleased(sf::Event event) {
         Piece* before = game->getBoard()->getPieceAtSquare(dragFromY, dragFromX);
         game->moveExecute(moveData);
         Piece* after = game->getBoard()->getPieceAtSquare(dragToY, dragToX);
-        
         if(after == before && before != nullptr) {
             ID promotePiece = EMPTY;
             if(before->getPieceID() == WHITE_PAWN && dragToY == 0) {
@@ -141,6 +140,7 @@ void GameSceneController::onMouseButtonReleased(sf::Event event) {
         isDragging = false;
         draggingPiecePossibleMoves = {};
         view->setPossibleMoves(draggingPiecePossibleMoves);
+        game->updateCheck();
 
         if(game->isBlackWin()) {
             gameState = GAME_OVER;
@@ -152,11 +152,14 @@ void GameSceneController::onMouseButtonReleased(sf::Event event) {
             gameState = GAME_OVER;
             view->setStalemateTextVisible(true);
         }
+        
         view->update();
 
     } else if(view->getResetButton()->isTriggered(sf::Mouse::getPosition(), event)) {
         init();
     }
+
+    
 }
 
 void GameSceneController::onMouseButtonHolding(sf::Event event) {
