@@ -197,3 +197,10 @@ std::vector<MoveData> Pawn::getPossibleMoves(int currentX, int currentY, Board& 
 
     return result;
 }
+
+Pawn* Pawn::clone() {
+    Pawn* clonePiece = new Pawn(color);
+    clonePiece->setCanBeEnPassant(canBeEnPassant);
+    clonePiece->setMoved(hasMoved);
+    return clonePiece;
+}

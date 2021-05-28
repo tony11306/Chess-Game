@@ -162,3 +162,9 @@ std::vector<MoveData> Queen::getPossibleMoves(int currentX, int currentY, Board&
 
     return result;
 }
+
+Queen* Queen::clone() {
+    Queen* clonePiece = new Queen(color);
+    clonePiece->setMoved(hasMoved);
+    return clonePiece;
+}

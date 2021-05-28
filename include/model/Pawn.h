@@ -14,6 +14,7 @@ class Pawn: public Piece {
         bool isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLock=false) override;
         std::vector<MoveData> getPossibleMoves(int currentRow, int currentCol, Board& board) override;
         bool isEnPassantMove(MoveData& moveData, Board& board);
+        Pawn* clone() override;
         void setCanBeEnPassant(bool);
         bool checkCanBeEnPassant();
         

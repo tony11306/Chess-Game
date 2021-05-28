@@ -45,6 +45,14 @@ void Game::moveExecute(MoveData& moveData) {
     
 }
 
+void Game::undo() {
+    if(!board->isHistoryEmpty()) {
+        switchTurn();
+    }
+    board->undoMove();
+    updateCheck();
+}
+
 void Game::switchTurn() {
     isWhiteTurn = !isWhiteTurn;
 }

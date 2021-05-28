@@ -13,7 +13,8 @@ class Queen: public Piece {
         Queen(char color);
         bool isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLock=false) override;
         std::vector<MoveData> getPossibleMoves(int currentRow, int currentCol, Board& board) override;
-        
+        Queen* clone() override;
+
 };
 
 

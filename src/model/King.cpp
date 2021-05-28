@@ -162,3 +162,9 @@ std::vector<MoveData> King::getPossibleMoves(int currentX, int currentY, Board& 
     return result;
 
 }
+
+King* King::clone() {
+    King* clonePiece = new King(color);
+    clonePiece->setMoved(hasMoved);
+    return clonePiece;
+}

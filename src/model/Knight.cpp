@@ -84,3 +84,9 @@ std::vector<MoveData> Knight::getPossibleMoves(int currentX, int currentY, Board
     
     return result;
 }
+
+Knight* Knight::clone() {
+    Knight* clonePiece = new Knight(color);
+    clonePiece->setMoved(hasMoved);
+    return clonePiece;
+}

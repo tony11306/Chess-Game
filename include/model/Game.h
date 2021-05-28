@@ -18,6 +18,7 @@ class Game{
         ~Game();
         Board* getBoard();
         void moveExecute(MoveData&);
+        void undo();
         bool checkIsWhiteTurn();
         bool isWhiteWin();
         bool isBlackWin();

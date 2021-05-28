@@ -8,6 +8,7 @@ using namespace std;
 
 const unsigned int FPS_LIMIT = 60;
 sf::Image icon;
+
 int main() {
     ShowWindow(GetConsoleWindow(), SW_HIDE);
     icon.loadFromFile("imgs/KnightBlack.png");

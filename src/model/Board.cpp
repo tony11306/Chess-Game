@@ -6,6 +6,7 @@
 #include "Pawn.h"
 #include "King.h"
 #include "Knight.h"
+#include "History.h"
 
 #include <iostream>
 #include <iomanip>
@@ -76,14 +77,24 @@ void Board::movePiece(MoveData& moveData) {
         return;
     }
 
+    // when the move is valid, do the move and check
 
+    History history = History(moveData);
+    historyMoves.push(history);
+    if(squares[toX][toY].getPiece() != nullptr) {
+        historyMoves.top().setCapturedPiece(squares[toX][toY].getPiece()->clone());
+    } else {
+        historyMoves.top().setCapturedPiece(nullptr);
+    }
+    historyMoves.top().setMovePiece(squares[fromX][fromY].getPiece()->clone());
 
-    // when the move is valid, do the move and check 
     squares[fromX][fromY].getPiece()->setMoved(true);
     if(squares[fromX][fromY].getPiece()->getPieceID() == WHITE_KING || squares[fromX][fromY].getPiece()->getPieceID() == BLACK_KING) {
+
         squares[toX][toY].deletePiece();
         squares[toX][toY].setPiece(squares[fromX][fromY].getPiece());
         squares[fromX][fromY].setPiece(nullptr);
+
         if(abs(toY - fromY) == 2) {
 
             if(toY-fromY > 0) { // king side castling
@@ -92,7 +103,8 @@ void Board::movePiece(MoveData& moveData) {
             } else { // queen side castling
                 squares[fromX][3].setPiece(squares[fromX][0].getPiece());
                 squares[fromX][0].setPiece(nullptr);
-            } 
+            }
+            historyMoves.top().setIsCastling(true);
 
         }
 
@@ -106,7 +118,7 @@ void Board::movePiece(MoveData& moveData) {
         return;
 
     } else if (squares[fromX][fromY].getPiece()->getPieceID() == WHITE_PAWN || squares[fromX][fromY].getPiece()->getPieceID() == BLACK_PAWN) {
-
+        
         if(fromY == toY && (abs(toX-fromX) == 2 || abs(toX-fromX) == 1)) {
 
             if(abs(toX-fromX) == 2) {
@@ -124,6 +136,8 @@ void Board::movePiece(MoveData& moveData) {
                 squares[toX][toY].setPiece(squares[fromX][fromY].getPiece());
                 squares[fromX][fromY].setPiece(nullptr);
             } else { // en passant
+                historyMoves.top().setCapturedPiece(squares[fromX][toY].getPiece()->clone());
+                historyMoves.top().setIsEnPassant(true);
                 squares[fromX][toY].deletePiece();
                 squares[fromX][toY].setPiece(nullptr);
 
@@ -158,6 +172,86 @@ void Board::movePiece(MoveData& moveData) {
         }
     }
 
+
+}
+
+void Board::undoMove() {
+
+    if(historyMoves.empty()) {
+        return;
+    }
+
+    History& previousMove = historyMoves.top();
+    Piece* prevMovePiece = previousMove.getMovePiece();
+    Piece* prevCapturedPiece = previousMove.getCapturedPiece();
+
+    int fromX = previousMove.getMoveData().getFromX();
+    int fromY = previousMove.getMoveData().getFromY();
+    int toX = previousMove.getMoveData().getToX();
+    int toY = previousMove.getMoveData().getToY();
+
+    if(prevMovePiece->getPieceID() == WHITE_KING) {
+        whiteKingPosition.first = fromX;
+        whiteKingPosition.second = fromY;
+    } else if(prevMovePiece->getPieceID() == BLACK_KING) {
+        blackKingPosition.first = fromX;
+        blackKingPosition.second = fromY;
+    }
+
+    squares[fromX][fromY].deletePiece();
+    squares[fromX][fromY].setPiece(prevMovePiece->clone());
+    
+    if(previousMove.checkIsCastling()) {
+
+        if(fromX == 0) { // black
+            if(toY-fromY > 0) { // king side
+                squares[0][7].deletePiece();
+                squares[0][7].setPiece(squares[0][5].getPiece()->clone());
+                squares[0][5].deletePiece();
+                squares[0][5].setPiece(nullptr);
+            } else { // queen side
+                squares[0][0].deletePiece();
+                squares[0][0].setPiece(squares[0][3].getPiece()->clone());
+                squares[0][3].deletePiece();
+                squares[0][3].setPiece(nullptr);
+            }
+        } else { // white
+            if(toY > fromY > 0) { // king side
+                squares[7][7].deletePiece();
+                squares[7][7].setPiece(squares[7][5].getPiece()->clone());
+                squares[7][5].deletePiece();
+                squares[7][5].setPiece(nullptr);
+            } else { // queen side
+                squares[7][0].deletePiece();
+                squares[7][0].setPiece(squares[7][3].getPiece()->clone());
+                squares[7][3].deletePiece();
+                squares[7][3].setPiece(nullptr);
+            }
+        }
+        
+    }
+
+    if(previousMove.checkIsEnPassant()) {
+        
+        squares[fromX][toY].deletePiece();
+        squares[fromX][toY].setPiece(prevCapturedPiece->clone());
+
+        squares[toX][toY].deletePiece();
+        squares[toX][toY].setPiece(nullptr);
+
+        squares[fromX][fromY].deletePiece();
+        squares[fromX][fromY].setPiece(prevMovePiece->clone());
+        
+    } else {
+        squares[toX][toY].deletePiece();
+        if(prevCapturedPiece != nullptr) {
+            squares[toX][toY].setPiece(prevCapturedPiece->clone());
+        } else {
+            squares[toX][toY].setPiece(nullptr);
+        }
+    }
+    
+    historyMoves.pop();
 
 }
 
@@ -277,8 +371,6 @@ void Board::setWhiteKingPosition(int row, int col) {
 std::vector<MoveData> Board::getWhitePossibleMoves() {
 
     std::vector<MoveData> result;
-    std::cout << "White king pos: " << char('a'+whiteKingPosition.second) << abs(8-whiteKingPosition.first) << std::endl;
-    std::cout << getPieceAtSquare(whiteKingPosition.first, whiteKingPosition.second)->getPieceID() << std::endl;
     for(int i = 0; i < BOARD_SIZE; ++i) {
         for(int j = 0; j < BOARD_SIZE; ++j) {
             if(getPieceAtSquare(i, j) == nullptr) {
@@ -287,7 +379,6 @@ std::vector<MoveData> Board::getWhitePossibleMoves() {
             if(getPieceAtSquare(i, j)->getColor() == 'w') {
 
                 for(MoveData& md : getPieceAtSquare(i, j)->getPossibleMoves(i, j, *this)) {
-                    std::cout << md.toString() << std::endl;
                     result.push_back(md);
                 }
             }
@@ -315,4 +406,8 @@ std::vector<MoveData> Board::getBlackPossibleMoves() {
     }
 
     return result;
+}
+
+bool Board::isHistoryEmpty() {
+    return historyMoves.empty();
 }

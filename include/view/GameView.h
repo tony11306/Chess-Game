@@ -44,6 +44,7 @@ class GameView {
         std::vector<MoveData> possibleMoves;
         std::vector<sf::Sprite> pieceSprites;
         Button* resetButton;
+        Button* undoButton;
 
         bool isWhiteWinTextVisible;
         bool isBlackWinTextVisible;
@@ -60,6 +61,7 @@ class GameView {
         void setPossibleMoves(std::vector<MoveData>& possibleMoves);
         std::vector<sf::Sprite>& getPieceSprites();
         Button* getResetButton();
+        Button* getUndoButton();
         void setWhiteWinTextVisible(bool isVisible);
         void setBlackWinTextVisible(bool isVisible);
         void setStalemateTextVisible(bool isVisible);

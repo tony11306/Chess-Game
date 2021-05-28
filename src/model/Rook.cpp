@@ -107,3 +107,9 @@ std::vector<MoveData> Rook::getPossibleMoves(int currentX, int currentY, Board& 
 
     return result;
 }
+
+Rook* Rook::clone() {
+    Rook* clonePiece = new Rook(color);
+    clonePiece->setMoved(hasMoved);
+    return clonePiece;
+}

@@ -59,6 +59,12 @@ GameView::GameView(sf::RenderWindow& window, Game* game)
     sf::Color(20, 20, 20, 200)
     );
 
+    undoButton = new Button(850.f, 400.f, 150, 50, font, "Undo",
+    sf::Color(70, 70, 70, 200),
+    sf::Color(150, 150, 150, 255),
+    sf::Color(20, 20, 20, 200)
+    );
+
     moveHint = sf::CircleShape(15);
     moveHint.setFillColor(sf::Color(123, 122, 106, 240));
 
@@ -72,6 +78,7 @@ GameView::GameView(sf::RenderWindow& window, Game* game)
 
 GameView::~GameView() {
     delete resetButton;
+    delete undoButton;
     delete game;
 }
 
@@ -142,8 +149,11 @@ Button* GameView::getResetButton() {
     return resetButton;
 }
 
-void GameView::draw() {
+Button* GameView::getUndoButton() {
+    return undoButton;
+}
 
+void GameView::draw() {
 
     mainWindow.draw(boardSprite);
     mainWindow.draw(playerTurnText);
@@ -175,6 +185,7 @@ void GameView::draw() {
     }
     
     resetButton->draw(mainWindow);
+    undoButton->draw(mainWindow);
 
     if(isBlackWinTextVisible) {
         mainWindow.draw(blackWinText);

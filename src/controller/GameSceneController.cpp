@@ -157,6 +157,13 @@ void GameSceneController::onMouseButtonReleased(sf::Event event) {
 
     } else if(view->getResetButton()->isTriggered(sf::Mouse::getPosition(), event)) {
         init();
+    } else if(view->getUndoButton()->isTriggered(sf::Mouse::getPosition(), event)) {
+        game->undo();
+        view->setBlackWinTextVisible(false);
+        view->setWhiteWinTextVisible(false);
+        view->setStalemateTextVisible(false);
+        view->update();
+        gameState = READY_TO_START;
     }
 
     
@@ -263,7 +270,7 @@ State GameSceneController::run() {
         mainWindow.clear(sf::Color(49, 46, 43, 1));
 
         view->getResetButton()->update(sf::Mouse::getPosition(mainWindow));
-
+        view->getUndoButton()->update(sf::Mouse::getPosition(mainWindow));
         view->draw();
 
 

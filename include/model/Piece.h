@@ -24,6 +24,7 @@ class Piece {
         virtual std::vector<MoveData> getPossibleMoves(int currentRow, int currentCol, Board& board) = 0;
         bool isTargetFriendly(int targetX, int targetY, Board& board);
         bool isMoveGoingToCheckmate(MoveData& moveData, Board& board);
+        virtual Piece* clone() = 0;
 
 };
 

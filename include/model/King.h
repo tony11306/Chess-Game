@@ -13,6 +13,7 @@ class King: public Piece{
         bool isMoveValid(MoveData& moveData, Board& board, bool checkmateDetectLock=false) override;
         bool isCastlingMoveValid(MoveData& moveData, Board& board);
         std::vector<MoveData> getPossibleMoves(int currentRow, int currentCol, Board& board) override;
+        King* clone() override;
 };
 
 

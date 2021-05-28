@@ -12,6 +12,7 @@ class Bishop: public Piece {
         Bishop(char color);
         bool isMoveValid(MoveData&, Board&, bool checkmateDetectLock=false) override;
         std::vector<MoveData> getPossibleMoves(int currentRow, int currentCol, Board& board) override;
+        Bishop* clone() override;
 };
 
 

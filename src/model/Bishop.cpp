@@ -90,3 +90,9 @@ std::vector<MoveData> Bishop::getPossibleMoves(int currentX, int currentY, Board
 
     return result;
 }
+
+Bishop* Bishop::clone() {
+    Bishop* clonePiece = new Bishop(color);
+    clonePiece->setMoved(hasMoved);
+    return clonePiece;
+}

@@ -22,9 +22,9 @@ class MoveData {
         std::string toString() {
             std::string s = "";
             s += char('a'+fromY);
-            s += char('0'+abs(8-fromX));
+            s += char('0'+std::abs(8-fromX));
             s += char('a'+toY);
-            s += char('0'+abs(8-toX));
+            s += char('0'+std::abs(8-toX));
             return s;
         }
 
