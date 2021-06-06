@@ -110,9 +110,23 @@ bool King::isCastlingMoveValid(MoveData& moveData, Board& board) {
         if(i == fromY) {
             continue;
         }
-        
+
         if(board.getPieceAtSquare(fromX, i) != nullptr) {
             return false;
+        }
+
+        for(int j = 0; j < BOARD_SIZE; ++j) {
+            for(int k = 0; k < BOARD_SIZE; ++k) {
+                if(board.getPieceAtSquare(j, k) != nullptr) {
+                    if(board.getPieceAtSquare(j, k)->getColor() != color) {
+                        MoveData md = MoveData(j, k, fromX, i);
+                        if(board.getPieceAtSquare(j, k)->isMoveValid(md, board)) {
+                            return false;
+                        }
+                        
+                    }
+                }
+            }
         }
 
         if(isMoveGoingToCheckmate(moveData, board)) {
