@@ -115,7 +115,6 @@ void Board::movePiece(MoveData& moveData) {
             blackKingPosition.first = toX;
             blackKingPosition.second = toY;
         }
-        return;
 
     } else if (squares[fromX][fromY].getPiece()->getPieceID() == WHITE_PAWN || squares[fromX][fromY].getPiece()->getPieceID() == BLACK_PAWN) {
         
